@@ -1,749 +1,800 @@
 <!DOCTYPE html>
 <html lang="id" class="h-full">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Investasi Bawang Merah - Dashboard Investor</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Laporan Pertanian Bawang Merah 2025 - 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              "nature-green": "#2d5016",
+              "nature-green-light": "#4a7c59",
+              "onion-red": "#c53030",
+              "onion-red-light": "#e53e3e",
+            },
+          },
+        },
+      };
+    </script>
     <style>
-        body {
-            box-sizing: border-box;
+      body {
+        box-sizing: border-box;
+      }
+      .fade-in {
+        animation: fadeIn 0.6s ease-in;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
         }
-        
-        .gradient-bg {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        to {
+          opacity: 1;
+          transform: translateY(0);
         }
-        
-        .card-hover {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .card-hover:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 20px -5px rgba(0, 0, 0, 0.1);
-        }
-        
-        .pulse-animation {
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.8; }
-        }
-        
-        .progress-bar {
-            background: linear-gradient(90deg, #dc2626, #ef4444);
-            transition: width 0.5s ease;
-        }
-        
-        .onion-icon {
-            font-size: 2rem;
-            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.1));
-        }
+      }
     </style>
-</head>
-<body class="h-full bg-gray-50 font-sans">
-    <header class="gradient-bg text-white shadow-lg">
-        <div class="max-w-4xl mx-auto px-4 py-6">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-3">
-                    <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center">
-                        <span class="text-3xl">🧅</span>
-                    </div>
-                    <div>
-                        <h1 class="text-2xl font-bold">Investasi Bawang Merah</h1>
-                        <p class="text-sm opacity-90">Kotak Tanah Premium - Lahan B1</p>
-                    </div>
-                </div>
-                <div class="text-right">
-                    <p class="text-sm opacity-90">Dashboard Investor</p>
-                    <p class="text-xs opacity-75" id="currentDate"></p>
-                </div>
+  </head>
+  <body class="h-full bg-gray-50 font-sans">
+    <!-- Countdown Timer -->
+    <div
+      class="bg-gradient-to-r from-nature-green to-nature-green-light text-white py-6 shadow-lg"
+    >
+      <div class="max-w-4xl mx-auto px-4 text-center">
+        <h1 class="text-2xl font-bold mb-4 flex items-center justify-center">
+          <span class="mr-3 text-3xl">🧅</span>Pertanian Bawang Merah 2025 / 2026
+        </h1>
+        <div class="bg-white/20 rounded-lg p-4 mb-3">
+          <p class="text-lg font-semibold mb-3">Penanaman dimulai dalam:</p>
+          <div class="flex justify-center space-x-8 text-3xl font-bold">
+            <div class="text-center">
+              <div id="days" class="text-4xl">15</div>
+              <div class="text-sm font-normal">Hari</div>
             </div>
+            <div class="text-center">
+              <div id="hours" class="text-4xl">8</div>
+              <div class="text-sm font-normal">Jam</div>
+            </div>
+            <div class="text-center">
+              <div id="minutes" class="text-4xl">45</div>
+              <div class="text-sm font-normal">Menit</div>
+            </div>
+          </div>
         </div>
-    </header>
+        <p class="text-sm opacity-90">Target Panen: 26 Januari 2026</p>
+      </div>
+    </div>
 
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+      <div class="max-w-4xl mx-auto px-4">
+        <div class="flex justify-center space-x-2 py-4 overflow-x-auto">
+          <button
+            onclick="showSection('home')"
+            class="nav-btn px-6 py-3 rounded-lg font-semibold text-sm whitespace-nowrap transition-colors bg-nature-green text-white"
+          >
+            🏠 Beranda
+          </button>
+          <button
+            onclick="showSection('finance')"
+            class="nav-btn px-6 py-3 rounded-lg font-semibold text-sm whitespace-nowrap transition-colors text-nature-green hover:bg-nature-green hover:text-white"
+          >
+            💰 Keuangan
+          </button>
+          <button
+            onclick="showSection('harvest')"
+            class="nav-btn px-6 py-3 rounded-lg font-semibold text-sm whitespace-nowrap transition-colors text-nature-green hover:bg-nature-green hover:text-white"
+          >
+            🌾 Hasil Panen
+          </button>
+          <button
+            onclick="showSection('report')"
+            class="nav-btn px-6 py-3 rounded-lg font-semibold text-sm whitespace-nowrap transition-colors text-nature-green hover:bg-nature-green hover:text-white"
+          >
+            📊 Laporan
+          </button>
+          <button
+            onclick="showSection('contact')"
+            class="nav-btn px-6 py-3 rounded-lg font-semibold text-sm whitespace-nowrap transition-colors text-nature-green hover:bg-nature-green hover:text-white"
+          >
+            📞 Kontak
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
     <main class="max-w-4xl mx-auto px-4 py-8">
-        <!-- Countdown Panen Section -->
-        <section class="mb-8">
-            <div class="bg-gradient-to-r from-red-500 to-pink-600 rounded-2xl p-8 text-white text-center shadow-xl">
-                <h2 class="text-2xl font-bold mb-2 flex items-center justify-center">
-                    <span class="mr-2">⏰</span>
-                    Countdown Panen Bawang Merah
-                </h2>
-                <p class="text-sm opacity-90 mb-6">Kotak Tanah Premium 2m x 3m</p>
-                <div class="grid grid-cols-4 gap-4 max-w-md mx-auto">
-                    <div class="bg-white bg-opacity-20 rounded-lg p-4">
-                        <div class="text-3xl font-bold" id="days">00</div>
-                        <div class="text-sm">Hari</div>
-                    </div>
-                    <div class="bg-white bg-opacity-20 rounded-lg p-4">
-                        <div class="text-3xl font-bold" id="hours">00</div>
-                        <div class="text-sm">Jam</div>
-                    </div>
-                    <div class="bg-white bg-opacity-20 rounded-lg p-4">
-                        <div class="text-3xl font-bold" id="minutes">00</div>
-                        <div class="text-sm">Menit</div>
-                    </div>
-                    <div class="bg-white bg-opacity-20 rounded-lg p-4">
-                        <div class="text-3xl font-bold" id="seconds">00</div>
-                        <div class="text-sm">Detik</div>
-                    </div>
-                </div>
-                <div class="mt-6 bg-white bg-opacity-10 rounded-lg p-4 inline-block">
-                    <p class="text-lg font-semibold">Target Panen: 20 Januari 2025</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Stats Overview -->
-        <section class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-            <div class="bg-white rounded-xl p-4 shadow-lg card-hover">
-                <div class="text-center">
-                    <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-2">
-                        <span class="text-2xl">💰</span>
-                    </div>
-                    <p class="text-gray-600 text-sm">Investasi</p>
-                    <p class="text-xl font-bold text-gray-800">Rp 500K</p>
-                </div>
-            </div>
-            
-            <div class="bg-white rounded-xl p-4 shadow-lg card-hover">
-                <div class="text-center">
-                    <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-2">
-                        <span class="text-2xl">📏</span>
-                    </div>
-                    <p class="text-gray-600 text-sm">Luas Kotak</p>
-                    <p class="text-xl font-bold text-gray-800">6 m²</p>
-                </div>
-            </div>
-            
-            <div class="bg-white rounded-xl p-4 shadow-lg card-hover">
-                <div class="text-center">
-                    <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-2">
-                        <span class="text-2xl">🧅</span>
-                    </div>
-                    <p class="text-gray-600 text-sm">Est. Hasil</p>
-                    <p class="text-xl font-bold text-gray-800">45 Kg</p>
-                </div>
-            </div>
-            
-            <div class="bg-white rounded-xl p-4 shadow-lg card-hover">
-                <div class="text-center">
-                    <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-2">
-                        <span class="text-2xl">📈</span>
-                    </div>
-                    <p class="text-gray-600 text-sm">ROI</p>
-                    <p class="text-xl font-bold text-green-600">+35%</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Progress Pertumbuhan -->
-        <section class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-            <div class="bg-white rounded-xl p-6 shadow-lg">
-                <h3 class="text-xl font-bold mb-4 flex items-center">
-                    <span class="mr-2 onion-icon">🧅</span>
-                    Progress Pertumbuhan
-                </h3>
-                <div class="space-y-6">
-                    <div>
-                        <div class="flex justify-between mb-2">
-                            <span class="text-sm font-medium">Fase Pertumbuhan</span>
-                            <span class="text-sm text-gray-600">78%</span>
-                        </div>
-                        <div class="w-full bg-gray-200 rounded-full h-4">
-                            <div class="progress-bar h-4 rounded-full" style="width: 78%"></div>
-                        </div>
-                        <p class="text-xs text-gray-500 mt-1">Fase pembentukan umbi - Minggu ke-10</p>
-                    </div>
-                    
-                    <!-- Tombol Detail Progress -->
-                    <div class="text-center">
-                        <button id="detailProgressBtn" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-                            📊 Lihat Detail Progress
-                        </button>
-                    </div>
-                    
-                    <div class="grid grid-cols-3 gap-4 text-center">
-                        <div class="p-3 bg-red-50 rounded-lg">
-                            <div class="text-2xl mb-1">🌱</div>
-                            <div class="text-sm font-medium">Tanam</div>
-                            <div class="text-xs text-green-600">✓ Selesai</div>
-                        </div>
-                        <div class="p-3 bg-yellow-50 rounded-lg pulse-animation">
-                            <div class="text-2xl mb-1">🧅</div>
-                            <div class="text-sm font-medium">Umbi</div>
-                            <div class="text-xs text-yellow-600">⏳ Proses</div>
-                        </div>
-                        <div class="p-3 bg-gray-50 rounded-lg">
-                            <div class="text-2xl mb-1">✂️</div>
-                            <div class="text-sm font-medium">Panen</div>
-                            <div class="text-xs text-gray-500">⏰ Menunggu</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Kondisi Tanaman -->
-            <div class="bg-white rounded-xl p-6 shadow-lg">
-                <h3 class="text-xl font-bold mb-4 flex items-center">
-                    <span class="mr-2">🌡️</span>
-                    Kondisi Optimal
-                </h3>
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="text-center p-4 bg-blue-50 rounded-lg">
-                        <div class="text-2xl mb-2">🌡️</div>
-                        <div class="text-xl font-bold text-blue-600">26°C</div>
-                        <div class="text-sm text-gray-600">Suhu Tanah</div>
-                        <div class="text-xs text-green-600 mt-1">✓ Optimal</div>
-                    </div>
-                    <div class="text-center p-4 bg-blue-50 rounded-lg">
-                        <div class="text-2xl mb-2">💧</div>
-                        <div class="text-xl font-bold text-blue-600">65%</div>
-                        <div class="text-sm text-gray-600">Kelembaban</div>
-                        <div class="text-xs text-green-600 mt-1">✓ Baik</div>
-                    </div>
-                    <div class="text-center p-4 bg-green-50 rounded-lg">
-                        <div class="text-2xl mb-2">🌧️</div>
-                        <div class="text-xl font-bold text-green-600">8mm</div>
-                        <div class="text-sm text-gray-600">Penyiraman</div>
-                        <div class="text-xs text-green-600 mt-1">✓ Cukup</div>
-                    </div>
-                    <div class="text-center p-4 bg-yellow-50 rounded-lg">
-                        <div class="text-2xl mb-2">🌞</div>
-                        <div class="text-xl font-bold text-yellow-600">7 Jam</div>
-                        <div class="text-sm text-gray-600">Sinar Matahari</div>
-                        <div class="text-xs text-green-600 mt-1">✓ Ideal</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Detail Kotak Tanah -->
-        <section class="bg-white rounded-xl p-6 shadow-lg mb-8">
-            <h3 class="text-xl font-bold mb-6 flex items-center">
-                <span class="mr-2">📋</span>
-                Detail Kotak Tanah B1
-            </h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="space-y-4">
-                    <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-                        <span class="font-medium">Dimensi Kotak</span>
-                        <span class="text-gray-700">2m × 3m × 0.3m</span>
-                    </div>
-                    <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-                        <span class="font-medium">Jumlah Bibit</span>
-                        <span class="text-gray-700">180 umbi</span>
-                    </div>
-                    <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-                        <span class="font-medium">Varietas</span>
-                        <span class="text-gray-700">Bawang Merah Brebes</span>
-                    </div>
-                    <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-                        <span class="font-medium">Tanggal Tanam</span>
-                        <span class="text-gray-700">15 Oktober 2024</span>
-                    </div>
-                </div>
-                <div class="space-y-4">
-                    <div class="flex justify-between items-center p-3 bg-green-50 rounded-lg">
-                        <span class="font-medium">Status Kesehatan</span>
-                        <span class="text-green-600 font-semibold">Sangat Baik</span>
-                    </div>
-                    <div class="flex justify-between items-center p-3 bg-blue-50 rounded-lg">
-                        <span class="font-medium">Sistem Irigasi</span>
-                        <span class="text-blue-600 font-semibold">Otomatis</span>
-                    </div>
-                    <div class="flex justify-between items-center p-3 bg-yellow-50 rounded-lg">
-                        <span class="font-medium">Pemupukan</span>
-                        <span class="text-yellow-600 font-semibold">Organik</span>
-                    </div>
-                    <div class="flex justify-between items-center p-3 bg-purple-50 rounded-lg">
-                        <span class="font-medium">Monitoring</span>
-                        <span class="text-purple-600 font-semibold">Pak Joko (Ahli)</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Cash Flow Tracker -->
-        <section class="bg-white rounded-xl p-6 shadow-lg mb-8">
-            <div class="flex items-center justify-between mb-6">
-                <h3 class="text-xl font-bold flex items-center">
-                    <span class="mr-2">💰</span>
-                    Arus Kas (Cash Flow)
-                </h3>
-                <button id="addTransactionBtn" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-                    + Tambah Transaksi
-                </button>
-            </div>
-            
-            <!-- Summary Cards -->
-            <div class="grid grid-cols-3 gap-4 mb-6">
-                <div class="bg-green-50 rounded-lg p-4 text-center">
-                    <div class="text-2xl mb-2">💵</div>
-                    <div class="text-lg font-bold text-green-600" id="totalIncome">Rp 500.000</div>
-                    <div class="text-sm text-gray-600">Total Masuk</div>
-                </div>
-                <div class="bg-red-50 rounded-lg p-4 text-center">
-                    <div class="text-2xl mb-2">💸</div>
-                    <div class="text-lg font-bold text-red-600" id="totalExpense">Rp 125.000</div>
-                    <div class="text-sm text-gray-600">Total Keluar</div>
-                </div>
-                <div class="bg-blue-50 rounded-lg p-4 text-center">
-                    <div class="text-2xl mb-2">💰</div>
-                    <div class="text-lg font-bold text-blue-600" id="netCashFlow">Rp 375.000</div>
-                    <div class="text-sm text-gray-600">Saldo Bersih</div>
-                </div>
-            </div>
-            
-            <!-- Transaction List -->
-            <div class="space-y-3" id="transactionList">
-                <div class="flex items-center justify-between p-3 bg-green-50 rounded-lg border-l-4 border-green-500">
-                    <div class="flex items-center space-x-3">
-                        <span class="text-green-600">💵</span>
-                        <div>
-                            <div class="font-medium">Modal Investasi Awal</div>
-                            <div class="text-sm text-gray-600">15 Oktober 2024</div>
-                        </div>
-                    </div>
-                    <span class="font-bold text-green-600">+Rp 500.000</span>
-                </div>
-                
-                <div class="flex items-center justify-between p-3 bg-red-50 rounded-lg border-l-4 border-red-500">
-                    <div class="flex items-center space-x-3">
-                        <span class="text-red-600">🌱</span>
-                        <div>
-                            <div class="font-medium">Bibit Bawang Merah</div>
-                            <div class="text-sm text-gray-600">15 Oktober 2024</div>
-                        </div>
-                    </div>
-                    <span class="font-bold text-red-600">-Rp 75.000</span>
-                </div>
-                
-                <div class="flex items-center justify-between p-3 bg-red-50 rounded-lg border-l-4 border-red-500">
-                    <div class="flex items-center space-x-3">
-                        <span class="text-red-600">🧪</span>
-                        <div>
-                            <div class="font-medium">Pupuk Organik</div>
-                            <div class="text-sm text-gray-600">20 Oktober 2024</div>
-                        </div>
-                    </div>
-                    <span class="font-bold text-red-600">-Rp 35.000</span>
-                </div>
-                
-                <div class="flex items-center justify-between p-3 bg-red-50 rounded-lg border-l-4 border-red-500">
-                    <div class="flex items-center space-x-3">
-                        <span class="text-red-600">💧</span>
-                        <div>
-                            <div class="font-medium">Sistem Irigasi</div>
-                            <div class="text-sm text-gray-600">22 Oktober 2024</div>
-                        </div>
-                    </div>
-                    <span class="font-bold text-red-600">-Rp 15.000</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- Detail Progress Modal -->
-        <div id="progressModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
-            <div class="bg-white rounded-xl w-full max-w-lg mx-4 max-h-[90vh] flex flex-col">
-                <div class="flex items-center justify-between p-6 border-b border-gray-200">
-                    <h4 class="text-lg font-bold">Detail Progress Mingguan</h4>
-                    <button id="closeProgressModal" class="text-gray-500 hover:text-gray-700 text-xl">&times;</button>
-                </div>
-                <div class="flex-1 overflow-y-auto p-6">
-                    <div class="space-y-3">
-                        <div class="flex justify-between items-center p-3 bg-green-50 rounded-lg border-l-4 border-green-500">
-                            <div>
-                                <span class="font-medium">Minggu 1-2: Perkecambahan</span>
-                                <p class="text-xs text-gray-600 mt-1">Bibit mulai berkecambah dan muncul tunas pertama</p>
-                            </div>
-                            <span class="text-green-600 font-semibold">✓ Selesai</span>
-                        </div>
-                        <div class="flex justify-between items-center p-3 bg-green-50 rounded-lg border-l-4 border-green-500">
-                            <div>
-                                <span class="font-medium">Minggu 3-5: Pertumbuhan daun</span>
-                                <p class="text-xs text-gray-600 mt-1">Daun mulai tumbuh subur dan batang menguat</p>
-                            </div>
-                            <span class="text-green-600 font-semibold">✓ Selesai</span>
-                        </div>
-                        <div class="flex justify-between items-center p-3 bg-green-50 rounded-lg border-l-4 border-green-500">
-                            <div>
-                                <span class="font-medium">Minggu 6-8: Penebalan batang</span>
-                                <p class="text-xs text-gray-600 mt-1">Batang mengalami penebalan dan akar semakin kuat</p>
-                            </div>
-                            <span class="text-green-600 font-semibold">✓ Selesai</span>
-                        </div>
-                        <div class="flex justify-between items-center p-3 bg-yellow-50 rounded-lg border-l-4 border-yellow-500">
-                            <div>
-                                <span class="font-medium">Minggu 9-11: Pembentukan umbi</span>
-                                <p class="text-xs text-gray-600 mt-1">Umbi mulai terbentuk dan membesar secara bertahap</p>
-                            </div>
-                            <span class="text-yellow-600 font-semibold pulse-animation">⏳ Berlangsung</span>
-                        </div>
-                        <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg border-l-4 border-gray-300">
-                            <div>
-                                <span class="font-medium">Minggu 12-14: Pematangan</span>
-                                <p class="text-xs text-gray-600 mt-1">Umbi mencapai ukuran maksimal dan siap panen</p>
-                            </div>
-                            <span class="text-gray-500 font-semibold">⏰ Menunggu</span>
-                        </div>
-                        
-                        <!-- Detail Tambahan -->
-                        <div class="mt-6 space-y-3">
-                            <h5 class="font-semibold text-sm">Kondisi Lingkungan Optimal:</h5>
-                            <div class="grid grid-cols-2 gap-3">
-                                <div class="p-3 bg-blue-50 rounded-lg text-center">
-                                    <div class="text-lg">🌡️</div>
-                                    <div class="text-sm font-medium">Suhu</div>
-                                    <div class="text-xs text-gray-600">25-30°C</div>
-                                </div>
-                                <div class="p-3 bg-blue-50 rounded-lg text-center">
-                                    <div class="text-lg">💧</div>
-                                    <div class="text-sm font-medium">Kelembaban</div>
-                                    <div class="text-xs text-gray-600">60-70%</div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="mt-4 space-y-3">
-                            <h5 class="font-semibold text-sm">Perawatan Mingguan:</h5>
-                            <div class="space-y-2">
-                                <div class="flex items-center p-2 bg-green-50 rounded">
-                                    <span class="text-green-600 mr-2">✓</span>
-                                    <span class="text-sm">Penyiraman rutin 2x sehari</span>
-                                </div>
-                                <div class="flex items-center p-2 bg-green-50 rounded">
-                                    <span class="text-green-600 mr-2">✓</span>
-                                    <span class="text-sm">Pemupukan organik setiap 2 minggu</span>
-                                </div>
-                                <div class="flex items-center p-2 bg-yellow-50 rounded">
-                                    <span class="text-yellow-600 mr-2">⏳</span>
-                                    <span class="text-sm">Monitoring hama dan penyakit</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="p-6 border-t border-gray-200 bg-blue-50">
-                    <h5 class="font-semibold text-sm mb-2">Catatan Ahli (Pak Joko):</h5>
-                    <p class="text-sm text-gray-700">"Pertumbuhan bawang sangat baik. Umbi mulai terbentuk dengan sempurna. Perlu dijaga kelembaban tanah dan hindari genangan air. Estimasi panen tepat waktu pada 20 Januari 2025."</p>
-                </div>
-            </div>
+      <!-- Home Section -->
+      <section id="home" class="section-content fade-in">
+        <div class="text-center mb-8">
+          <h2 class="text-3xl font-bold text-nature-green mb-2">
+            Ringkasan Proyek
+          </h2>
+          <p class="text-gray-600">Investasi bawang merah musim tanam 2025</p>
         </div>
 
-        <!-- Add Transaction Modal -->
-        <div id="transactionModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
-            <div class="bg-white rounded-xl p-6 w-full max-w-md mx-4">
-                <h4 class="text-lg font-bold mb-4">Tambah Transaksi Baru</h4>
-                <form id="transactionForm">
-                    <div class="space-y-4">
-                        <div>
-                            <label for="transactionType" class="block text-sm font-medium text-gray-700 mb-1">Jenis Transaksi</label>
-                            <select id="transactionType" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                                <option value="income">Pemasukan</option>
-                                <option value="expense">Pengeluaran</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label for="transactionDescription" class="block text-sm font-medium text-gray-700 mb-1">Keterangan</label>
-                            <input type="text" id="transactionDescription" placeholder="Contoh: Pembelian pestisida" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                        </div>
-                        <div>
-                            <label for="transactionAmount" class="block text-sm font-medium text-gray-700 mb-1">Jumlah (Rp)</label>
-                            <input type="number" id="transactionAmount" placeholder="50000" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                        </div>
-                        <div>
-                            <label for="transactionDate" class="block text-sm font-medium text-gray-700 mb-1">Tanggal</label>
-                            <input type="date" id="transactionDate" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                        </div>
-                    </div>
-                    <div class="flex space-x-3 mt-6">
-                        <button type="button" id="cancelTransaction" class="flex-1 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">Batal</button>
-                        <button type="submit" class="flex-1 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">Simpan</button>
-                    </div>
-                </form>
-            </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <div
+            class="bg-white rounded-xl shadow-lg p-6 text-center border-l-4 border-nature-green"
+          >
+            <div class="text-4xl mb-3">📍</div>
+            <h3 class="text-lg font-semibold text-gray-700 mb-2">
+              Lokasi Lahan
+            </h3>
+            <p class="text-2xl font-bold text-nature-green">
+              Jawa Barat, Tasikmalaya, Jamanis
+            </p>
+          </div>
+          <div
+            class="bg-white rounded-xl shadow-lg p-6 text-center border-l-4 border-onion-red"
+          >
+            <div class="text-4xl mb-3">🏞️</div>
+            <h3 class="text-lg font-semibold text-gray-700 mb-2">Luas Lahan</h3>
+            <p class="text-2xl font-bold text-onion-red">28 Meter</p>
+          </div>
         </div>
 
-        <!-- Proyeksi Keuntungan -->
-        <section class="bg-white rounded-xl p-6 shadow-lg">
-            <h3 class="text-xl font-bold mb-6 flex items-center">
-                <span class="mr-2">💹</span>
-                Proyeksi Keuntungan
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <div
+            class="bg-white rounded-xl shadow-lg p-6 text-center border-l-4 border-nature-green"
+          >
+            <div class="text-4xl mb-3">🌱</div>
+            <h3 class="text-lg font-semibold text-gray-700 mb-2">
+              Tanggal Tanam
             </h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="space-y-4">
-                    <div class="flex justify-between items-center p-4 bg-gray-50 rounded-lg">
-                        <span class="font-medium">Modal Investasi</span>
-                        <span class="text-lg font-bold">Rp 500.000</span>
-                    </div>
-                    <div class="flex justify-between items-center p-4 bg-red-50 rounded-lg">
-                        <span class="font-medium">Biaya Operasional</span>
-                        <span class="text-lg font-bold text-red-600">Rp 125.000</span>
-                    </div>
-                    <div class="flex justify-between items-center p-4 bg-green-50 rounded-lg">
-                        <span class="font-medium">Estimasi Penjualan</span>
-                        <span class="text-lg font-bold text-green-600">Rp 675.000</span>
-                    </div>
-                    <div class="flex justify-between items-center p-4 bg-blue-50 rounded-lg border-2 border-blue-200">
-                        <span class="font-bold">Keuntungan Bersih</span>
-                        <span class="text-xl font-bold text-blue-600">Rp 175.000</span>
-                    </div>
-                </div>
-                <div class="flex items-center justify-center">
-                    <div class="text-center p-6 bg-gradient-to-br from-green-100 to-emerald-100 rounded-xl border-2 border-green-200">
-                        <div class="text-4xl mb-2">🎯</div>
-                        <div class="text-3xl font-bold text-green-600 mb-2">35%</div>
-                        <div class="text-lg font-semibold text-gray-700">Return on Investment</div>
-                        <div class="text-sm text-gray-600 mt-2">Dalam 3 bulan</div>
-                    </div>
-                </div>
+            <p class="text-2xl font-bold text-nature-green">Segera</p>
+          </div>
+          <div
+            class="bg-white rounded-xl shadow-lg p-6 text-center border-l-4 border-onion-red"
+          >
+            <div class="text-4xl mb-3">🧅</div>
+            <h3 class="text-lg font-semibold text-gray-700 mb-2">
+              Tanggal Panen
+            </h3>
+            <p class="text-2xl font-bold text-onion-red">-</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div
+            class="bg-gradient-to-br from-nature-green to-nature-green-light text-white rounded-xl shadow-lg p-8 text-center"
+          >
+            <div class="text-5xl mb-4">💵</div>
+            <h3 class="text-xl font-semibold mb-3">Total Modal</h3>
+            <p class="text-3xl font-bold">Rp 200.000</p>
+          </div>
+          <div
+            class="bg-gradient-to-br from-onion-red to-onion-red-light text-white rounded-xl shadow-lg p-8 text-center"
+          >
+            <div class="text-5xl mb-4">🎯</div>
+            <h3 class="text-xl font-semibold mb-3">Estimasi Hasil</h3>
+            <p class="text-3xl font-bold">Rp 2.500.000</p>
+          </div>
+        </div>
+
+        <div class="mt-8 bg-white rounded-xl shadow-lg p-6">
+          <div class="text-center">
+            <h3 class="text-2xl font-bold text-nature-green mb-4">
+              Status Proyek Saat Ini
+            </h3>
+            <div class="bg-green-100 rounded-lg p-4 mb-4">
+              <p class="text-lg font-semibold text-green-800">
+                ✅ Segera tanam modal, sebelum musim tanam berakhir.
+              </p>
             </div>
-        </section>
+            <div class="flex justify-center items-center space-x-4 mb-4">
+              <span class="text-gray-600">Progress:</span>
+              <div class="w-48 bg-gray-200 rounded-full h-4">
+                <div
+                  class="bg-nature-green h-4 rounded-full"
+                  style="width: 0%"
+                ></div>
+              </div>
+              <span class="font-bold text-nature-green">0%</span>
+            </div>
+            <p class="text-gray-600">Hari ke-0 dari 92 hari masa tanam</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Finance Section -->
+      <section id="finance" class="section-content hidden fade-in">
+        <div class="text-center mb-8">
+          <h2 class="text-3xl font-bold text-nature-green mb-2">
+            Laporan Keuangan
+          </h2>
+          <p class="text-gray-600">Transparansi pemasukan dan pengeluaran</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+            <div class="text-4xl mb-3">📤</div>
+            <h3 class="text-lg font-semibold text-gray-700 mb-2">
+              Total Pengeluaran
+            </h3>
+            <p class="text-2xl font-bold text-red-600">Rp 0</p>
+          </div>
+          <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+            <div class="text-4xl mb-3">📥</div>
+            <h3 class="text-lg font-semibold text-gray-700 mb-2">
+              Total Pemasukkan
+            </h3>
+            <p class="text-2xl font-bold text-green-600">Rp 0</p>
+          </div>
+          <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+            <div class="text-4xl mb-3">💼</div>
+            <h3 class="text-lg font-semibold text-gray-700 mb-2">Invest</h3>
+            <p class="text-2xl font-bold text-green-600">Rp 0</p>
+          </div>
+          <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+            <div class="text-4xl mb-3">💸</div>
+            <h3 class="text-lg font-semibold text-gray-700 mb-2">
+              Total Modal
+            </h3>
+            <p class="text-2xl font-bold text-green-600">Rp 200.000</p>
+          </div>
+          <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+            <div class="text-4xl mb-3">🪙</div>
+            <h3 class="text-lg font-semibold text-gray-700 mb-2">
+              Proyeksi Modal
+            </h3>
+            <p class="text-2xl font-bold text-green-600">Rp 1.100.000</p>
+          </div>
+          <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+            <div class="text-4xl mb-3">💰</div>
+            <h3 class="text-lg font-semibold text-gray-700 mb-2">
+              Keuntungan Bersih
+            </h3>
+            <p class="text-2xl font-bold text-nature-green">Rp 0</p>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+          <h3 class="text-xl font-bold text-nature-green mb-6 text-center">
+            Grafik Keuangan
+          </h3>
+          <canvas id="financeChart" width="400" height="200"></canvas>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-lg p-6">
+          <h3 class="text-xl font-bold text-nature-green mb-6">
+            Rincian Pengeluaran
+          </h3>
+          <!-- <div class="space-y-4">
+            <div class="flex justify-between items-center py-3 border-b">
+              <div class="flex items-center">
+                <span class="text-2xl mr-3">🌱</span>
+                <span class="font-medium">Bibit Bawang Merah</span>
+              </div>
+              <span class="text-lg font-bold">Rp 60.000.000</span>
+            </div>
+            <div class="flex justify-between items-center py-3 border-b">
+              <div class="flex items-center">
+                <span class="text-2xl mr-3">🧪</span>
+                <span class="font-medium">Pupuk & Pestisida</span>
+              </div>
+              <span class="text-lg font-bold">Rp 35.000.000</span>
+            </div>
+            <div class="flex justify-between items-center py-3 border-b">
+              <div class="flex items-center">
+                <span class="text-2xl mr-3">👨‍🌾</span>
+                <span class="font-medium">Tenaga Kerja</span>
+              </div>
+              <span class="text-lg font-bold">Rp 30.000.000</span>
+            </div>
+            <div class="flex justify-between items-center py-3 border-b">
+              <div class="flex items-center">
+                <span class="text-2xl mr-3">🏞️</span>
+                <span class="font-medium">Sewa Lahan</span>
+              </div>
+              <span class="text-lg font-bold">Rp 25.000.000</span>
+            </div>
+            <div
+              class="flex justify-between items-center py-3 border-t-2 border-nature-green font-bold text-lg"
+            > -->
+              <span>Total Pengeluaran</span>
+              <span class="text-nature-green">Rp 0</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Harvest Section -->
+      <section id="harvest" class="section-content hidden fade-in">
+        <div class="text-center mb-8">
+          <h2 class="text-3xl font-bold text-nature-green mb-2">Hasil Panen</h2>
+          <p class="text-gray-600">Proyeksi hasil dan pendapatan</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+            <div class="text-4xl mb-3">⚖️</div>
+            <h3 class="text-lg font-semibold text-gray-700 mb-2">
+              Total Berat Panen
+            </h3>
+            <p class="text-3xl font-bold text-nature-green">0 kg</p>
+          </div>
+          <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+            <div class="text-4xl mb-3">💵</div>
+            <h3 class="text-lg font-semibold text-gray-700 mb-2">
+              Harga Jual per Kg
+            </h3>
+            <p class="text-3xl font-bold text-onion-red">Rp 20.000</p>
+          </div>
+          <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+            <div class="text-4xl mb-3">💰</div>
+            <h3 class="text-lg font-semibold text-gray-700 mb-2">
+              Total Pendapatan
+            </h3>
+            <p class="text-3xl font-bold text-green-600">Rp 0</p>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+          <h3 class="text-xl font-bold text-nature-green mb-6 text-center">
+            Proyeksi Hasil per Kualitas
+          </h3>
+          <canvas id="harvestChart" width="400" height="200"></canvas>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div
+            class="bg-gradient-to-br from-green-500 to-green-600 text-white rounded-xl shadow-lg p-6 text-center"
+          >
+            <div class="text-4xl mb-3">📈</div>
+            <h3 class="text-xl font-semibold mb-2">Return on Investment</h3>
+            <p class="text-4xl font-bold">0%</p>
+            <p class="text-sm opacity-90 mt-2">Keuntungan 0% dari modal</p>
+          </div>
+          <div
+            class="bg-gradient-to-br from-onion-red to-onion-red-light text-white rounded-xl shadow-lg p-6 text-center"
+          >
+            <div class="text-4xl mb-3">⏱️</div>
+            <h3 class="text-xl font-semibold mb-2">Periode Investasi</h3>
+            <p class="text-4xl font-bold">3 Bulan</p>
+            <p class="text-sm opacity-90 mt-2">Investasi jangka pendek</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Report Section -->
+      <section id="report" class="section-content hidden fade-in">
+        <div class="text-center mb-8">
+          <h2 class="text-3xl font-bold text-nature-green mb-2">
+            Laporan Akhir
+          </h2>
+          <p class="text-gray-600">Ringkasan lengkap investasi</p>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+          <h3 class="text-xl font-bold text-nature-green mb-6 text-center">
+            Grafik Laba Bersih
+          </h3>
+          <canvas id="profitChart" width="400" height="200"></canvas>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <div class="bg-white rounded-xl shadow-lg p-6">
+            <h3 class="text-lg font-bold text-nature-green mb-4 text-center">
+              Ringkasan Investasi
+            </h3>
+            <div class="space-y-3">
+              <div class="flex justify-between py-2 border-b">
+                <span class="text-gray-600">Modal Awal</span>
+                <span class="font-bold">Rp 0</span>
+              </div>
+              <div class="flex justify-between py-2 border-b">
+                <span class="text-gray-600">Total Penjualan</span>
+                <span class="font-bold text-green-600">Rp 0</span>
+              </div>
+              <div class="flex justify-between py-2 border-b">
+                <span class="text-gray-600">Laba Kotor</span>
+                <span class="font-bold text-green-600">Rp 0</span>
+              </div>
+              <div
+                class="flex justify-between py-2 border-t-2 border-nature-green font-bold text-lg"
+              >
+                <span>ROI</span>
+                <span class="text-nature-green">87%</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-xl shadow-lg p-6">
+            <h3 class="text-lg font-bold text-nature-green mb-4 text-center">
+              Performa Panen
+            </h3>
+            <div class="space-y-3">
+              <div class="flex justify-between py-2 border-b">
+                <span class="text-gray-600">Produktivitas</span>
+                <span class="font-bold">KG/Meter</span>
+              </div>
+              <div class="flex justify-between py-2 border-b">
+                <span class="text-gray-600">Kualitas A</span>
+                <span class="font-bold text-green-600">0%</span>
+              </div>
+              <div class="flex justify-between py-2 border-b">
+                <span class="text-gray-600">Kualitas B</span>
+                <span class="font-bold text-yellow-600">0%</span>
+              </div>
+              <div
+                class="flex justify-between py-2 border-t-2 border-nature-green font-bold"
+              >
+                <span>Kualitas C</span>
+                <span class="text-nature-green">0%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-lg p-8 text-center">
+          <h3 class="text-xl font-bold text-nature-green mb-4">
+            Unduh Laporan Lengkap
+          </h3>
+          <p class="text-gray-600 mb-6">
+            Dapatkan laporan detail dalam format PDF
+          </p>
+          <button
+            onclick="downloadReport()"
+            class="bg-onion-red hover:bg-onion-red-light text-white px-8 py-4 rounded-lg font-bold text-lg transition-colors flex items-center justify-center mx-auto space-x-3"
+          >
+            <span class="text-2xl">📄</span>
+            <span>Unduh Laporan PDF</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Contact Section -->
+      <section id="contact" class="section-content hidden fade-in">
+        <div class="text-center mb-8">
+          <h2 class="text-3xl font-bold text-nature-green mb-2">
+            Hubungi Kami
+          </h2>
+          <p class="text-gray-600">Ada pertanyaan? Kami siap membantu</p>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+          <h3 class="text-xl font-bold text-nature-green mb-6 text-center">
+            Kirim Pesan
+          </h3>
+          <form onsubmit="submitContact(event)" class="space-y-4">
+            <div>
+              <label
+                for="name"
+                class="block text-sm font-semibold text-gray-700 mb-2"
+                >Nama Lengkap</label
+              >
+              <input
+                type="text"
+                id="name"
+                name="name"
+                required
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-nature-green focus:border-nature-green text-lg"
+              />
+            </div>
+            <div>
+              <label
+                for="email"
+                class="block text-sm font-semibold text-gray-700 mb-2"
+                >Email</label
+              >
+              <input
+                type="email"
+                id="email"
+                name="email"
+                required
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-nature-green focus:border-nature-green text-lg"
+              />
+            </div>
+            <div>
+              <label
+                for="phone"
+                class="block text-sm font-semibold text-gray-700 mb-2"
+                >Nomor Telepon</label
+              >
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-nature-green focus:border-nature-green text-lg"
+              />
+            </div>
+            <div>
+              <label
+                for="message"
+                class="block text-sm font-semibold text-gray-700 mb-2"
+                >Pesan</label
+              >
+              <textarea
+                id="message"
+                name="message"
+                rows="4"
+                required
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-nature-green focus:border-nature-green text-lg"
+              ></textarea>
+            </div>
+            <button
+              type="submit"
+              class="w-full bg-nature-green hover:bg-nature-green-light text-white py-4 rounded-lg font-bold text-lg transition-colors"
+            >
+              Kirim Pesan
+            </button>
+          </form>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+            <div class="text-4xl mb-3">📱</div>
+            <h3 class="text-lg font-semibold text-gray-700 mb-2">WhatsApp</h3>
+            <p class="text-xl font-bold text-nature-green">+6283136286696</p>
+            <p class="text-sm text-gray-600 mt-2">Respon cepat 24/7</p>
+          </div>
+          <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+            <div class="text-4xl mb-3">✉️</div>
+            <h3 class="text-lg font-semibold text-gray-700 mb-2">Email</h3>
+            <p class="text-xl font-bold text-nature-green">
+              adityaardiansyah2003@gmail.com
+            </p>
+            <p class="text-sm text-gray-600 mt-2">Balasan dalam 2 jam</p>
+          </div>
+        </div>
+      </section>
     </main>
 
-    <footer class="bg-gray-800 text-white mt-12 py-6">
-        <div class="max-w-4xl mx-auto px-4 text-center">
-            <p class="text-gray-400">© 2024 Investasi Bawang Merah. Platform investasi pertanian kotak tanah terpercaya.</p>
-        </div>
-    </footer>
-
     <script>
-        // Update current date
-        function updateCurrentDate() {
-            const now = new Date();
-            const options = { 
-                weekday: 'long', 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric',
-                timeZone: 'Asia/Jakarta'
-            };
-            document.getElementById('currentDate').textContent = now.toLocaleDateString('id-ID', options);
+      // Countdown Timer
+      function updateCountdown() {
+        const harvestDate = new Date("2025-11-01T07:00:00");
+        const now = new Date();
+        const diff = harvestDate - now;
+
+        if (diff > 0) {
+          const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+          const hours = Math.floor(
+            (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+          );
+          const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+          document.getElementById("days").textContent = days;
+          document.getElementById("hours").textContent = hours;
+          document.getElementById("minutes").textContent = minutes;
         }
+      }
 
-        // Countdown timer untuk panen bawang merah
-        function updateCountdown() {
-            // Set target date (20 Januari 2025, 07:00 WIB)
-            const targetDate = new Date('2025-01-20T07:00:00+07:00').getTime();
-            const now = new Date().getTime();
-            const difference = targetDate - now;
+      // Navigation
+      function showSection(sectionId) {
+        document.querySelectorAll(".section-content").forEach((section) => {
+          section.classList.add("hidden");
+        });
 
-            if (difference > 0) {
-                const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+        document.getElementById(sectionId).classList.remove("hidden");
 
-                document.getElementById('days').textContent = days.toString().padStart(2, '0');
-                document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
-                document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
-                document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
-            } else {
-                // Countdown finished - saatnya panen!
-                document.getElementById('days').textContent = '00';
-                document.getElementById('hours').textContent = '00';
-                document.getElementById('minutes').textContent = '00';
-                document.getElementById('seconds').textContent = '00';
-            }
-        }
+        document.querySelectorAll(".nav-btn").forEach((btn) => {
+          btn.classList.remove("bg-nature-green", "text-white");
+          btn.classList.add(
+            "text-nature-green",
+            "hover:bg-nature-green",
+            "hover:text-white"
+          );
+        });
 
-        // Initialize functions
-        updateCurrentDate();
+        event.target.classList.add("bg-nature-green", "text-white");
+        event.target.classList.remove(
+          "text-nature-green",
+          "hover:bg-nature-green",
+          "hover:text-white"
+        );
+      }
+
+      // Charts
+      function initCharts() {
+        // Finance Chart
+        const financeCtx = document
+          .getElementById("financeChart")
+          .getContext("2d");
+        new Chart(financeCtx, {
+          type: "doughnut",
+          data: {
+            labels: [
+              "Bibit",
+              "Pupuk & Pestisida",
+              "Bensin Teraktor",
+              "Lainnya",
+            ],
+            datasets: [
+              {
+                data: [0, 0, 0, 0],
+                backgroundColor: ["#2d5016", "#4a7c59", "#c53030", "#e53e3e"],
+                borderWidth: 0,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: {
+                position: "bottom",
+                labels: {
+                  padding: 20,
+                  font: {
+                    size: 14,
+                  },
+                },
+              },
+            },
+          },
+        });
+
+        // Harvest Chart
+        const harvestCtx = document
+          .getElementById("harvestChart")
+          .getContext("2d");
+        new Chart(harvestCtx, {
+          type: "bar",
+          data: {
+            labels: ["Kualitas A", "Kualitas B", "Kualitas C"],
+            datasets: [
+              {
+                label: "Berat (kg)",
+                data: [0, 0, 0],
+                backgroundColor: ["#2d5016", "#4a7c59", "#c53030"],
+                borderRadius: 8,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: {
+                display: false,
+              },
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                title: {
+                  display: true,
+                  text: "Berat (kg)",
+                  font: {
+                    size: 14,
+                  },
+                },
+              },
+            },
+          },
+        });
+
+        // Profit Chart
+        const profitCtx = document
+          .getElementById("profitChart")
+          .getContext("2d");
+        new Chart(profitCtx, {
+          type: "bar",
+          data: {
+            labels: ["Modal", "Penjualan", "Laba Bersih"],
+            datasets: [
+              {
+                data: [0, 0, 0],
+                backgroundColor: ["#c53030", "#4a7c59", "#2d5016"],
+                borderRadius: 8,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: {
+                display: false,
+              },
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                title: {
+                  display: true,
+                  text: "Jutaan Rupiah",
+                  font: {
+                    size: 14,
+                  },
+                },
+              },
+            },
+          },
+        });
+      }
+
+      // Form submission
+      function submitContact(event) {
+        event.preventDefault();
+
+        const formData = new FormData(event.target);
+        const name = formData.get("name");
+
+        const successDiv = document.createElement("div");
+        successDiv.className =
+          "mt-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg";
+        successDiv.innerHTML = `
+                <div class="flex items-center justify-center">
+                    <span class="mr-2 text-xl">✅</span>
+                    <span class="font-semibold">Terima kasih ${name}! Pesan Anda telah dikirim. Kami akan menghubungi Anda segera.</span>
+                </div>
+            `;
+
+        event.target.appendChild(successDiv);
+        event.target.reset();
+
+        setTimeout(() => {
+          successDiv.remove();
+        }, 5000);
+      }
+
+      // Download report
+      function downloadReport() {
+        const successDiv = document.createElement("div");
+        successDiv.className =
+          "mt-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg";
+        successDiv.innerHTML = `
+                <div class="flex items-center justify-center">
+                    <span class="mr-2 text-xl">📄</span>
+                    <span class="font-semibold">Laporan PDF sedang dipersiapkan. Link unduhan akan dikirim ke email Anda dalam 5 menit.</span>
+                </div>
+            `;
+
+        document
+          .querySelector("#report .bg-white:last-child")
+          .appendChild(successDiv);
+
+        setTimeout(() => {
+          successDiv.remove();
+        }, 5000);
+      }
+
+      // Initialize
+      document.addEventListener("DOMContentLoaded", function () {
         updateCountdown();
-        
-        // Update countdown every second
-        setInterval(updateCountdown, 1000);
-        
-        // Update date every minute
-        setInterval(updateCurrentDate, 60000);
-
-        // Add hover effects
-        document.querySelectorAll('.card-hover').forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-3px)';
-            });
-            
-            card.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0)';
-            });
-        });
-
-        // Simulate progress updates
-        function simulateGrowthProgress() {
-            const progressBar = document.querySelector('.progress-bar');
-            const currentWidth = parseInt(progressBar.style.width);
-            
-            if (currentWidth < 95) {
-                // Increase progress slightly
-                const increase = Math.random() * 0.3;
-                const newWidth = Math.min(currentWidth + increase, 95);
-                progressBar.style.width = newWidth + '%';
-                
-                // Update percentage text
-                const percentageSpan = progressBar.parentElement.previousElementSibling.querySelector('.text-gray-600');
-                if (percentageSpan) {
-                    percentageSpan.textContent = Math.round(newWidth) + '%';
-                }
-            }
-        }
-
-        // Update progress every 45 seconds
-        setInterval(simulateGrowthProgress, 45000);
-
-        // Cash Flow Management
-        let transactions = [
-            { type: 'income', description: 'Modal Investasi Awal', amount: 500000, date: '2024-10-15', icon: '💵' },
-            { type: 'expense', description: 'Bibit Bawang Merah', amount: 75000, date: '2024-10-15', icon: '🌱' },
-            { type: 'expense', description: 'Pupuk Organik', amount: 35000, date: '2024-10-20', icon: '🧪' },
-            { type: 'expense', description: 'Sistem Irigasi', amount: 15000, date: '2024-10-22', icon: '💧' }
-        ];
-
-        function formatCurrency(amount) {
-            return 'Rp ' + amount.toLocaleString('id-ID');
-        }
-
-        function updateCashFlowSummary() {
-            const totalIncome = transactions.filter(t => t.type === 'income').reduce((sum, t) => sum + t.amount, 0);
-            const totalExpense = transactions.filter(t => t.type === 'expense').reduce((sum, t) => sum + t.amount, 0);
-            const netCashFlow = totalIncome - totalExpense;
-
-            document.getElementById('totalIncome').textContent = formatCurrency(totalIncome);
-            document.getElementById('totalExpense').textContent = formatCurrency(totalExpense);
-            document.getElementById('netCashFlow').textContent = formatCurrency(netCashFlow);
-        }
-
-        function renderTransactions() {
-            const transactionList = document.getElementById('transactionList');
-            transactionList.innerHTML = '';
-
-            transactions.forEach(transaction => {
-                const isIncome = transaction.type === 'income';
-                const bgColor = isIncome ? 'bg-green-50' : 'bg-red-50';
-                const borderColor = isIncome ? 'border-green-500' : 'border-red-500';
-                const textColor = isIncome ? 'text-green-600' : 'text-red-600';
-                const sign = isIncome ? '+' : '-';
-
-                const transactionElement = document.createElement('div');
-                transactionElement.className = `flex items-center justify-between p-3 ${bgColor} rounded-lg border-l-4 ${borderColor}`;
-                transactionElement.innerHTML = `
-                    <div class="flex items-center space-x-3">
-                        <span class="${textColor}">${transaction.icon}</span>
-                        <div>
-                            <div class="font-medium">${transaction.description}</div>
-                            <div class="text-sm text-gray-600">${new Date(transaction.date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</div>
-                        </div>
-                    </div>
-                    <span class="font-bold ${textColor}">${sign}${formatCurrency(transaction.amount)}</span>
-                `;
-                transactionList.appendChild(transactionElement);
-            });
-        }
-
-        // Progress Modal functionality
-        const progressModal = document.getElementById('progressModal');
-        const detailProgressBtn = document.getElementById('detailProgressBtn');
-        const closeProgressModal = document.getElementById('closeProgressModal');
-
-        detailProgressBtn.addEventListener('click', () => {
-            progressModal.classList.remove('hidden');
-            progressModal.classList.add('flex');
-        });
-
-        closeProgressModal.addEventListener('click', () => {
-            progressModal.classList.add('hidden');
-            progressModal.classList.remove('flex');
-        });
-
-        // Close progress modal when clicking outside
-        progressModal.addEventListener('click', (e) => {
-            if (e.target === progressModal) {
-                progressModal.classList.add('hidden');
-                progressModal.classList.remove('flex');
-            }
-        });
-
-        // Transaction Modal functionality
-        const modal = document.getElementById('transactionModal');
-        const addBtn = document.getElementById('addTransactionBtn');
-        const cancelBtn = document.getElementById('cancelTransaction');
-        const form = document.getElementById('transactionForm');
-
-        addBtn.addEventListener('click', () => {
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            // Set default date to today
-            document.getElementById('transactionDate').value = new Date().toISOString().split('T')[0];
-        });
-
-        cancelBtn.addEventListener('click', () => {
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-            form.reset();
-        });
-
-        // Close modal when clicking outside
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.classList.add('hidden');
-                modal.classList.remove('flex');
-                form.reset();
-            }
-        });
-
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            const type = document.getElementById('transactionType').value;
-            const description = document.getElementById('transactionDescription').value;
-            const amount = parseInt(document.getElementById('transactionAmount').value);
-            const date = document.getElementById('transactionDate').value;
-
-            if (!description || !amount || !date) {
-                return;
-            }
-
-            // Get appropriate icon based on transaction type and description
-            let icon = type === 'income' ? '💵' : '💸';
-            if (description.toLowerCase().includes('bibit')) icon = '🌱';
-            else if (description.toLowerCase().includes('pupuk')) icon = '🧪';
-            else if (description.toLowerCase().includes('air') || description.toLowerCase().includes('irigasi')) icon = '💧';
-            else if (description.toLowerCase().includes('pestisida')) icon = '🧴';
-            else if (description.toLowerCase().includes('panen')) icon = '🧅';
-
-            const newTransaction = {
-                type,
-                description,
-                amount,
-                date,
-                icon
-            };
-
-            transactions.push(newTransaction);
-            renderTransactions();
-            updateCashFlowSummary();
-
-            // Close modal and reset form
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-            form.reset();
-        });
-
-        // Initialize cash flow
-        updateCashFlowSummary();
-
-        // Add click interaction for status cards
-        document.querySelectorAll('.bg-gray-50, .bg-green-50, .bg-blue-50, .bg-yellow-50, .bg-purple-50').forEach(card => {
-            card.addEventListener('click', function() {
-                this.style.transform = 'scale(0.98)';
-                setTimeout(() => {
-                    this.style.transform = 'scale(1)';
-                }, 150);
-            });
-        });
+        setInterval(updateCountdown, 60000);
+        initCharts();
+      });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9940a6d4659be791',t:'MTc2MTM4NDE3MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+    <script>
+      (function () {
+        function c() {
+          var b = a.contentDocument || a.contentWindow.document;
+          if (b) {
+            var d = b.createElement("script");
+            d.innerHTML =
+              "window.__CF$cv$params={r:'9941abdb70a81c0e',t:'MTc2MTM5NDg2MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
+            b.getElementsByTagName("head")[0].appendChild(d);
+          }
+        }
+        if (document.body) {
+          var a = document.createElement("iframe");
+          a.height = 1;
+          a.width = 1;
+          a.style.position = "absolute";
+          a.style.top = 0;
+          a.style.left = 0;
+          a.style.border = "none";
+          a.style.visibility = "hidden";
+          document.body.appendChild(a);
+          if ("loading" !== document.readyState) c();
+          else if (window.addEventListener)
+            document.addEventListener("DOMContentLoaded", c);
+          else {
+            var e = document.onreadystatechange || function () {};
+            document.onreadystatechange = function (b) {
+              e(b);
+              "loading" !== document.readyState &&
+                ((document.onreadystatechange = e), c());
+            };
+          }
+        }
+      })();
+    </script>
+  </body>
 </html>
