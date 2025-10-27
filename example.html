@@ -3,88 +3,71 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Iluze Agritech - Dashboard Investor Bawang Merah</title>
+    <title>Iluze Agritech - Dashboard Investor</title>
     <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
       body {
         box-sizing: border-box;
-        font-family: "Poppins", sans-serif;
+        font-family: "Inter", sans-serif;
         margin: 0;
         padding: 0;
-        background: linear-gradient(135deg, #f8fffe 0%, #f0f9f4 100%);
+        background: #f8faf9;
         color: #2d3748;
         line-height: 1.6;
       }
 
-      /* Navigation */
-      .navbar {
+      .nav {
         background: white;
-        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         position: sticky;
         top: 0;
         z-index: 100;
+        padding: 15px 0;
       }
 
-      .nav-container {
+      .nav-content {
         max-width: 1200px;
         margin: 0 auto;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 15px 20px;
+        padding: 0 20px;
       }
 
       .logo {
         font-size: 1.5rem;
         font-weight: 700;
         color: #2f855a;
-        display: flex;
-        align-items: center;
-        gap: 8px;
       }
 
-      .nav-menu {
+      .nav-links {
         display: flex;
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        gap: 30px;
+        gap: 25px;
       }
 
-      .nav-item {
+      .nav-link {
         cursor: pointer;
-        padding: 10px 15px;
-        border-radius: 8px;
-        transition: all 0.3s ease;
+        padding: 8px 12px;
+        border-radius: 6px;
+        transition: background 0.2s;
         font-weight: 500;
       }
 
-      .nav-item:hover,
-      .nav-item.active {
+      .nav-link:hover,
+      .nav-link.active {
         background: #e6fffa;
         color: #2f855a;
       }
 
-      .mobile-menu-btn {
-        display: none;
-        background: none;
-        border: none;
-        font-size: 1.5rem;
-        cursor: pointer;
-      }
-
-      /* Container */
       .container {
         max-width: 1200px;
         margin: 0 auto;
         padding: 20px;
       }
 
-      /* Page Sections */
       .page {
         display: none;
       }
@@ -93,78 +76,66 @@
         display: block;
       }
 
-      /* Countdown Section */
-      .countdown-hero {
-        background: linear-gradient(135deg, #68d391 0%, #48bb78 100%);
+      .countdown {
+        background: linear-gradient(135deg, #48bb78, #38a169);
         color: white;
-        padding: 40px;
-        border-radius: 20px;
-        text-align: center;
-        margin-bottom: 30px;
-        box-shadow: 0 8px 30px rgba(72, 187, 120, 0.3);
-      }
-
-      .countdown-title {
-        font-size: 1.8rem;
-        font-weight: 600;
-        margin-bottom: 20px;
-      }
-
-      .countdown-timer {
-        display: flex;
-        justify-content: center;
-        gap: 25px;
-        flex-wrap: wrap;
-        margin-bottom: 20px;
-      }
-
-      .countdown-item {
-        background: rgba(255, 255, 255, 0.2);
-        padding: 20px 25px;
+        padding: 30px;
         border-radius: 15px;
         text-align: center;
-        min-width: 90px;
+        margin-bottom: 25px;
       }
 
-      .countdown-number {
-        font-size: 2.5rem;
+      .countdown h2 {
+        margin: 0 0 15px 0;
+        font-size: 1.5rem;
+      }
+
+      .timer {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+
+      .timer-item {
+        background: rgba(255, 255, 255, 0.2);
+        padding: 15px 20px;
+        border-radius: 10px;
+        min-width: 70px;
+      }
+
+      .timer-num {
+        font-size: 2rem;
         font-weight: 700;
         display: block;
       }
 
-      .countdown-label {
-        font-size: 1rem;
-        opacity: 0.9;
+      .timer-label {
+        font-size: 0.9rem;
       }
 
-      /* Stats Grid */
-      .stats-grid {
+      .stats {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 25px;
-        margin-bottom: 30px;
+        gap: 20px;
+        margin-bottom: 25px;
       }
 
       .stat-card {
         background: white;
-        padding: 30px;
-        border-radius: 15px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
         text-align: center;
-        transition: transform 0.3s ease;
-      }
-
-      .stat-card:hover {
-        transform: translateY(-5px);
       }
 
       .stat-icon {
-        font-size: 3rem;
-        margin-bottom: 15px;
+        font-size: 2.5rem;
+        margin-bottom: 10px;
       }
 
       .stat-value {
-        font-size: 2rem;
+        font-size: 1.8rem;
         font-weight: 700;
         color: #2f855a;
         margin-bottom: 5px;
@@ -172,94 +143,80 @@
 
       .stat-label {
         color: #718096;
-        font-size: 1rem;
         font-weight: 500;
       }
 
-      /* Quick Actions */
-      .quick-actions {
+      .actions {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 20px;
-        margin-bottom: 30px;
+        gap: 15px;
+        margin-bottom: 25px;
       }
 
       .action-btn {
         background: white;
         border: 2px solid #e2e8f0;
-        padding: 20px;
-        border-radius: 12px;
+        padding: 18px;
+        border-radius: 10px;
         text-align: center;
         cursor: pointer;
-        transition: all 0.3s ease;
+        transition: all 0.2s;
         font-weight: 500;
       }
 
       .action-btn:hover {
         border-color: #48bb78;
         background: #f0fff4;
-        transform: translateY(-2px);
       }
 
-      /* CTA Section */
-      .cta-section {
-        background: linear-gradient(135deg, #f6e05e 0%, #ecc94b 100%);
-        padding: 40px;
-        border-radius: 20px;
+      .cta {
+        background: linear-gradient(135deg, #f6e05e, #ecc94b);
+        padding: 35px;
+        border-radius: 15px;
         text-align: center;
-        margin-bottom: 30px;
-        box-shadow: 0 4px 20px rgba(236, 201, 75, 0.3);
-      }
-
-      .cta-title {
-        font-size: 2rem;
-        font-weight: 700;
-        color: #744210;
-        margin-bottom: 10px;
-      }
-
-      .cta-text {
-        font-size: 1.2rem;
-        color: #975a16;
         margin-bottom: 25px;
       }
 
-      .cta-button {
-        background: linear-gradient(135deg, #2f855a 0%, #276749 100%);
+      .cta h3 {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #744210;
+        margin: 0 0 10px 0;
+      }
+
+      .cta p {
+        font-size: 1.1rem;
+        color: #975a16;
+        margin: 0 0 20px 0;
+      }
+
+      .cta-btn {
+        background: #2f855a;
         color: white;
-        padding: 18px 35px;
+        padding: 15px 30px;
         border: none;
-        border-radius: 12px;
-        font-size: 1.2rem;
+        border-radius: 10px;
+        font-size: 1.1rem;
         font-weight: 600;
         cursor: pointer;
-        transition: transform 0.3s ease;
       }
 
-      .cta-button:hover {
-        transform: translateY(-3px);
+      .cta-btn:hover {
+        background: #276749;
       }
 
-      /* Table Styles */
-      .table-container {
+      .card {
         background: white;
-        border-radius: 15px;
-        overflow: hidden;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-        margin-bottom: 30px;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+        margin-bottom: 25px;
       }
 
-      .table-header {
-        background: #f7fafc;
-        padding: 20px;
-        border-bottom: 1px solid #e2e8f0;
-      }
-
-      .table-title {
-        font-size: 1.5rem;
-        font-weight: 600;
+      .card h3 {
+        margin: 0 0 20px 0;
+        font-size: 1.4rem;
         color: #2d3748;
-        margin: 0;
       }
 
       table {
@@ -269,7 +226,7 @@
 
       th,
       td {
-        padding: 15px;
+        padding: 12px;
         text-align: left;
         border-bottom: 1px solid #e2e8f0;
       }
@@ -280,120 +237,193 @@
         color: #4a5568;
       }
 
-      tr:hover {
-        background: #f7fafc;
+      .chart-simple {
+        height: 250px;
+        background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+        border-radius: 12px;
+        display: flex;
+        align-items: end;
+        padding: 25px 20px 20px 20px;
+        gap: 15px;
+        position: relative;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06);
       }
 
-      /* Chart Container */
-      .chart-container {
-        background: white;
-        padding: 30px;
-        border-radius: 15px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-        margin-bottom: 30px;
+      .chart-simple::before {
+        content: "";
+        position: absolute;
+        left: 20px;
+        bottom: 20px;
+        top: 25px;
+        width: 2px;
+        background: #cbd5e0;
       }
 
-      .chart-title {
-        font-size: 1.5rem;
+      .chart-simple::after {
+        content: "";
+        position: absolute;
+        left: 20px;
+        right: 20px;
+        bottom: 20px;
+        height: 2px;
+        background: #cbd5e0;
+      }
+
+      .bar {
+        background: linear-gradient(180deg, #68d391 0%, #48bb78 100%);
+        border-radius: 6px 6px 0 0;
+        min-width: 40px;
+        flex: 1;
+        display: flex;
+        align-items: start;
+        justify-content: center;
+        color: white;
+        font-size: 0.75rem;
         font-weight: 600;
-        color: #2d3748;
-        margin-bottom: 20px;
-        text-align: center;
+        padding-top: 8px;
+        position: relative;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        box-shadow: 0 2px 8px rgba(72, 187, 120, 0.3);
       }
 
-      /* Progress Bar */
-      .progress-section {
-        background: white;
-        padding: 30px;
-        border-radius: 15px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-        margin-bottom: 30px;
+      .bar:hover {
+        background: linear-gradient(180deg, #4fd1c7 0%, #38b2ac 100%);
+        transform: translateY(-5px);
+        box-shadow: 0 4px 12px rgba(72, 187, 120, 0.4);
       }
 
-      .progress-title {
-        font-size: 1.3rem;
-        font-weight: 600;
-        color: #2d3748;
-        margin-bottom: 15px;
+      .bar::before {
+        content: attr(data-value);
+        position: absolute;
+        bottom: -25px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: #4a5568;
+        font-size: 0.8rem;
+        font-weight: 500;
       }
 
-      .progress-bar {
-        width: 100%;
-        height: 25px;
+      .progress {
         background: #e2e8f0;
+        height: 25px;
         border-radius: 12px;
         overflow: hidden;
-        margin-bottom: 10px;
+        margin: 15px 0;
       }
 
       .progress-fill {
         height: 100%;
-        background: linear-gradient(90deg, #48bb78, #38a169);
-        border-radius: 12px;
-        transition: width 0.5s ease;
+        background: #48bb78;
         display: flex;
         align-items: center;
         justify-content: center;
         color: white;
         font-weight: 600;
+        font-size: 0.9rem;
       }
 
-      /* Profit Section */
       .profit-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 20px;
-        margin-bottom: 30px;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 15px;
+        margin-bottom: 25px;
       }
 
-      .profit-card {
+      .profit-item {
         background: white;
-        padding: 25px;
-        border-radius: 12px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
         text-align: center;
       }
 
       .profit-amount {
-        font-size: 1.8rem;
+        font-size: 1.6rem;
         font-weight: 700;
         color: #2f855a;
-        margin-bottom: 8px;
+        margin-bottom: 5px;
       }
 
       .profit-label {
         color: #718096;
-        font-size: 1rem;
+        font-size: 0.9rem;
       }
 
-      /* About Section */
-      .about-content {
+      .pie-simple {
+        display: flex;
+        height: 250px;
+        align-items: center;
+        justify-content: center;
+        gap: 40px;
+        padding: 20px;
+      }
+
+      .pie-chart {
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        background: conic-gradient(
+          #4299e1 0deg 216deg,
+          #48bb78 216deg 306deg,
+          #ed8936 306deg 360deg
+        );
+        position: relative;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        transition: transform 0.3s ease;
+      }
+
+      .pie-chart:hover {
+        transform: scale(1.05);
+      }
+
+      .pie-chart::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 60px;
+        height: 60px;
         background: white;
-        padding: 40px;
-        border-radius: 15px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-        margin-bottom: 30px;
+        border-radius: 50%;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       }
 
-      .about-title {
-        font-size: 2rem;
-        font-weight: 700;
-        color: #2f855a;
-        margin-bottom: 20px;
+      .pie-legend {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
       }
 
-      .about-text {
-        font-size: 1.1rem;
-        line-height: 1.8;
-        color: #4a5568;
-        margin-bottom: 25px;
+      .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 8px 0;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        cursor: pointer;
       }
 
-      .contact-info {
+      .legend-item:hover {
+        background: #f7fafc;
+        padding-left: 8px;
+        border-radius: 6px;
+      }
+
+      .legend-color {
+        width: 20px;
+        height: 20px;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .contact-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
         gap: 20px;
-        margin-top: 30px;
+        margin-top: 25px;
       }
 
       .contact-item {
@@ -408,16 +438,14 @@
         margin-bottom: 10px;
       }
 
-      /* Footer */
       .footer {
         background: #2d3748;
         color: white;
         text-align: center;
         padding: 20px;
-        margin-top: 50px;
+        margin-top: 40px;
       }
 
-      /* Export Button */
       .export-btn {
         background: #4299e1;
         color: white;
@@ -425,17 +453,15 @@
         padding: 10px 20px;
         border-radius: 8px;
         cursor: pointer;
-        font-weight: 500;
-        margin-bottom: 20px;
+        margin-bottom: 15px;
       }
 
-      .export-btn:hover {
-        background: #3182ce;
+      .mobile-menu {
+        display: none;
       }
 
-      /* Responsive */
       @media (max-width: 768px) {
-        .nav-menu {
+        .nav-links {
           display: none;
           position: absolute;
           top: 100%;
@@ -443,292 +469,331 @@
           right: 0;
           background: white;
           flex-direction: column;
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
           padding: 20px;
-          gap: 10px;
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
 
-        .nav-menu.active {
+        .nav-links.active {
           display: flex;
         }
 
-        .mobile-menu-btn {
+        .mobile-menu {
           display: block;
+          background: none;
+          border: none;
+          font-size: 1.5rem;
+          cursor: pointer;
         }
 
-        .countdown-timer {
-          gap: 15px;
+        .timer {
+          gap: 10px;
         }
 
-        .countdown-item {
-          padding: 15px 20px;
-          min-width: 70px;
+        .timer-item {
+          padding: 10px 15px;
+          min-width: 60px;
         }
 
-        .countdown-number {
-          font-size: 2rem;
+        .timer-num {
+          font-size: 1.5rem;
         }
 
-        .stats-grid {
+        .stats {
           grid-template-columns: 1fr;
         }
 
-        .container {
-          padding: 15px;
+        .pie-simple {
+          flex-direction: column;
+          height: auto;
+          gap: 20px;
         }
       }
     </style>
   </head>
   <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-      <div class="nav-container">
-        <div class="logo">🧅 Iluze Agritech</div>
-        <ul class="nav-menu" id="navMenu">
-          <li class="nav-item active" onclick="showPage('home')">Beranda</li>
-          <li class="nav-item" onclick="showPage('investment')">
+    <nav class="nav">
+      <div class="nav-content">
+        <div class="logo">🧅 ILZ Business</div>
+        <div class="nav-links" id="navLinks">
+          <div class="nav-link active" onclick="showPage('home')">Beranda</div>
+          <div class="nav-link" onclick="showPage('investment')">
             Data Investasi
-          </li>
-          <li class="nav-item" onclick="showPage('growth')">
-            Pertumbuhan & Panen
-          </li>
-          <li class="nav-item" onclick="showPage('profit')">
-            Proyeksi Keuntungan
-          </li>
-          <li class="nav-item" onclick="showPage('about')">Tentang Proyek</li>
-        </ul>
-        <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+          </div>
+          <div class="nav-link" onclick="showPage('growth')">Pertumbuhan</div>
+          <div class="nav-link" onclick="showPage('profit')">Keuntungan</div>
+          <div class="nav-link" onclick="showPage('about')">Tentang</div>
+        </div>
+        <button class="mobile-menu" onclick="toggleMenu()">☰</button>
       </div>
     </nav>
 
     <div class="container">
-      <!-- HOME PAGE -->
+      <!-- HOME -->
       <div id="home" class="page active">
-        <div class="countdown-hero">
-          <div class="countdown-title">⏰ Waktu menuju panen berikutnya:</div>
-          <div class="countdown-timer" id="countdown">
-            <div class="countdown-item">
-              <span class="countdown-number" id="days">0</span>
-              <span class="countdown-label">Hari</span>
+        <div class="countdown">
+          <h1>PERTANIAN BAWANG MERAH 2025/2026</h1>
+          <h3>⏰ Waktu menuju penanaman :</h3>
+          <div class="timer" id="timer">
+            <div class="timer-item">
+              <span class="timer-num" id="days">0</span>
+              <span class="timer-label">Hari</span>
             </div>
-            <div class="countdown-item">
-              <span class="countdown-number" id="hours">0</span>
-              <span class="countdown-label">Jam</span>
+            <div class="timer-item">
+              <span class="timer-num" id="hours">0</span>
+              <span class="timer-label">Jam</span>
             </div>
-            <div class="countdown-item">
-              <span class="countdown-number" id="minutes">0</span>
-              <span class="countdown-label">Menit</span>
+            <div class="timer-item">
+              <span class="timer-num" id="minutes">0</span>
+              <span class="timer-label">Menit</span>
             </div>
-            <div class="countdown-item">
-              <span class="countdown-number" id="seconds">0</span>
-              <span class="countdown-label">Detik</span>
+            <div class="timer-item">
+              <span class="timer-num" id="seconds">0</span>
+              <span class="timer-label">Detik</span>
             </div>
           </div>
         </div>
 
-        <div class="stats-grid">
+        <div class="stats">
           <div class="stat-card">
             <div class="stat-icon">👥</div>
-            <div class="stat-value">14</div>
+            <div class="stat-value">2</div>
             <div class="stat-label">Investor Aktif</div>
           </div>
           <div class="stat-card">
             <div class="stat-icon">💰</div>
-            <div class="stat-value">Rp 120M</div>
+            <div class="stat-value">Rp 850.000</div>
             <div class="stat-label">Total Modal</div>
           </div>
           <div class="stat-card">
             <div class="stat-icon">🌾</div>
-            <div class="stat-value">2.5 Ha</div>
-            <div class="stat-label">Total Lahan Aktif</div>
+            <div class="stat-value">784 m²</div>
+            <div class="stat-label">Lahan Aktif</div>
           </div>
           <div class="stat-card">
             <div class="stat-icon">📦</div>
-            <div class="stat-value">3,500 kg</div>
-            <div class="stat-label">Estimasi Hasil Panen</div>
+            <div class="stat-value">100 kg</div>
+            <div class="stat-label">Estimasi Panen</div>
           </div>
         </div>
 
-        <div class="quick-actions">
+        <div class="actions">
           <div class="action-btn" onclick="showPage('investment')">
-            📊 Lihat Data Investasi
+            📊 Data Investasi
           </div>
           <div class="action-btn" onclick="showPage('growth')">
-            📈 Pantau Pertumbuhan
+            📈 Pertumbuhan
           </div>
           <div class="action-btn" onclick="showPage('profit')">
-            💹 Cek Proyeksi Keuntungan
+            💹 Keuntungan
           </div>
           <div class="action-btn" onclick="showPage('about')">
             ℹ️ Info Proyek
           </div>
         </div>
 
-        <div class="cta-section">
-          <h3 class="cta-title">🚀 Kesempatan Investasi Terbatas!</h3>
-          <p class="cta-text">
-            Gabung sekarang sebelum masa tanam berikutnya dimulai!
-          </p>
-          <button class="cta-button" onclick="showInvestmentModal()">
+        <div class="cta">
+          <h3>🚀 Kesempatan Terbatas!</h3>
+          <p>Gabung sekarang sebelum masa tanam berikutnya dimulai!</p>
+          <button class="cta-btn" onclick="showModal()">
             Mulai Investasi Sekarang
           </button>
         </div>
       </div>
 
-      <!-- INVESTMENT DATA PAGE -->
+      <!-- INVESTMENT -->
       <div id="investment" class="page">
-        <button class="export-btn" onclick="exportToCSV()">
-          📥 Export to CSV
-        </button>
+        <button class="export-btn" onclick="exportData()">📥 Export CSV</button>
 
-        <div class="table-container">
-          <div class="table-header">
-            <h3 class="table-title">📋 Daftar Investor</h3>
-          </div>
+        <div class="card">
+          <h3>📋 Daftar Investor</h3>
           <table>
             <thead>
               <tr>
-                <th>Nama Investor</th>
-                <th>Jumlah Investasi</th>
-                <th>Tanggal Bergabung</th>
-                <th>Persentase Bagi Hasil</th>
+                <th>Nama</th>
+                <th>Investasi</th>
+                <th>Tanggal</th>
+                <th>Bagi Hasil</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>Ahmad Wijaya</td>
-                <td>Rp 15,000,000</td>
-                <td>15 Jan 2025</td>
+                <td>Velisora</td>
+                <td>Rp 700.000</td>
+                <td>25 Okt 2025</td>
                 <td>12.5%</td>
               </tr>
               <tr>
-                <td>Siti Nurhaliza</td>
-                <td>Rp 10,000,000</td>
-                <td>18 Jan 2025</td>
+                <td>Ironquill</td>
+                <td>Rp 50.000</td>
+                <td>25 Okt 2025</td>
                 <td>8.3%</td>
               </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card">
+          <h3>📋 Daftar barang dibutuhkan</h3>
+          <table>
+            <thead>
               <tr>
-                <td>Budi Santoso</td>
-                <td>Rp 20,000,000</td>
-                <td>20 Jan 2025</td>
-                <td>16.7%</td>
+                <th>Nama Barang</th>
+                <th>Stok</th>
+                <th>Satuan</th>
+                <th>Harga</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Pupuk Kandang</td>
+                <td>30</td>
+                <td>Karung</td>
+                <td>Rp 300.000</td>
               </tr>
               <tr>
-                <td>Maya Sari</td>
-                <td>Rp 8,000,000</td>
-                <td>22 Jan 2025</td>
-                <td>6.7%</td>
+                <td>Musa</td>
+                <td>1</td>
+                <td>Unit</td>
+                <td>Rp 350.000</td>
               </tr>
               <tr>
-                <td>Rizki Pratama</td>
-                <td>Rp 12,000,000</td>
-                <td>25 Jan 2025</td>
-                <td>10.0%</td>
+                <td>Benih Bawang Merah</td>
+                <td>10</td>
+                <td>Kg</td>
+                <td>Rp 400.000</td>
+              </tr>
+              <tr>
+                <td>Obat Obatan</td>
+                <td>1</td>
+                <td>Unit</td>
+                <td>Rp 100.000</td>
+              </tr>
+              <tr>
+                <td>Bensin</td>
+                <td>4</td>
+                <td>Liter</td>
+                <td>Rp 50.000</td>
               </tr>
             </tbody>
           </table>
         </div>
 
-        <div class="chart-container">
-          <h3 class="chart-title">📊 Total Modal Masuk per Bulan</h3>
-          <canvas id="investmentChart"></canvas>
+        <div class="card">
+          <h3>📊 Modal Masuk per Bulan</h3>
+          <div class="chart-simple">
+            <div class="bar" style="height: 100%" data-value="Okt">
+              Rp 850.000
+            </div>
+            <div class="bar" style="height: 0%" data-value="Nov">35M</div>
+            <div class="bar" style="height: 0%" data-value="Des">30M</div>
+            <div class="bar" style="height: 0%" data-value="Jan">20M</div>
+            <div class="bar" style="height: 0%" data-value="Feb">10M</div>
+          </div>
         </div>
       </div>
 
-      <!-- GROWTH & HARVEST PAGE -->
+      <!-- GROWTH -->
       <div id="growth" class="page">
-        <div class="progress-section">
-          <h3 class="progress-title">🌱 Tingkat Pertumbuhan Tanaman</h3>
-          <div class="progress-bar">
-            <div class="progress-fill" style="width: 70%">70% Menuju Panen</div>
+        <div class="card">
+          <h3>🌱 Tingkat Pertumbuhan</h3>
+          <div class="progress">
+            <div class="progress-fill" style="width: 0%">0% Menuju Panen</div>
           </div>
-          <p style="color: #718096; margin-top: 10px">
-            Estimasi waktu panen: 45 hari lagi
-          </p>
+          <p style="color: #718096">Estimasi waktu panen: 45 hari lagi</p>
         </div>
 
-        <div class="chart-container">
-          <h3 class="chart-title">📈 Perkembangan Hasil Panen per Minggu</h3>
-          <canvas id="harvestChart"></canvas>
+        <div class="card">
+          <h3>📈 Hasil Panen per Minggu</h3>
+          <div class="chart-simple">
+            <div class="bar" style="height: 0%" data-value="W1">0</div>
+            <div class="bar" style="height: 0%" data-value="W2">0</div>
+            <div class="bar" style="height: 0%" data-value="W3">0</div>
+            <div class="bar" style="height: 0%" data-value="W4">0</div>
+            <div class="bar" style="height: 0%" data-value="W5">0</div>
+            <div class="bar" style="height: 0%" data-value="W6">0</div>
+            <div class="bar" style="height: 0%" data-value="W7">0</div>
+            <div class="bar" style="height: 0%" data-value="W8">0</div>
+          </div>
         </div>
 
-        <div class="table-container">
-          <div class="table-header">
-            <h3 class="table-title">📋 Ringkasan Hasil Panen Sebelumnya</h3>
-          </div>
+        <div class="card">
+          <h3>📋 Hasil Panen Sebelumnya</h3>
           <table>
             <thead>
               <tr>
-                <th>Periode Panen</th>
-                <th>Total Hasil (kg)</th>
+                <th>Periode</th>
+                <th>Hasil</th>
                 <th>Kualitas</th>
-                <th>Harga Jual/kg</th>
-                <th>Total Pendapatan</th>
+                <th>Harga/kg</th>
+                <th>Pendapatan</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
+              <!--<tr>
                 <td>Juli 2024</td>
                 <td>3,400 kg</td>
                 <td>Grade A</td>
                 <td>Rp 45,000</td>
-                <td>Rp 153,000,000</td>
-              </tr>
-              <tr>
-                <td>April 2024</td>
-                <td>3,200 kg</td>
-                <td>Grade A</td>
-                <td>Rp 42,000</td>
-                <td>Rp 134,400,000</td>
-              </tr>
-              <tr>
-                <td>Januari 2024</td>
-                <td>2,800 kg</td>
-                <td>Grade B</td>
-                <td>Rp 38,000</td>
-                <td>Rp 106,400,000</td>
-              </tr>
+                <td>Rp 153M</td>
+              </tr>-->
             </tbody>
           </table>
         </div>
       </div>
 
-      <!-- PROFIT PROJECTION PAGE -->
+      <!-- PROFIT -->
       <div id="profit" class="page">
         <div class="profit-grid">
-          <div class="profit-card">
-            <div class="profit-amount">Rp 165M</div>
-            <div class="profit-label">Total Estimasi Pendapatan</div>
+          <div class="profit-item">
+            <div class="profit-amount">Rp 2,5jt</div>
+            <div class="profit-label">Estimasi Pendapatan</div>
           </div>
-          <div class="profit-card">
-            <div class="profit-amount">Rp 120M</div>
+          <div class="profit-item">
+            <div class="profit-amount">Rp 1,1jt</div>
+            <div class="profit-label">Etimasi Modal</div>
+          </div>
+          <div class="profit-item">
+            <div class="profit-amount">Rp 850rb</div>
             <div class="profit-label">Total Modal</div>
           </div>
-          <div class="profit-card">
-            <div class="profit-amount">Rp 45M</div>
-            <div class="profit-label">Estimasi Profit Bersih</div>
+          <div class="profit-item">
+            <div class="profit-amount">Rp 0</div>
+            <div class="profit-label">Profit Bersih</div>
           </div>
-          <div class="profit-card">
+          <div class="profit-item">
             <div class="profit-amount">37.5%</div>
             <div class="profit-label">ROI Estimasi</div>
           </div>
         </div>
 
-        <div class="chart-container">
-          <h3 class="chart-title">🥧 Pembagian Hasil Keuntungan</h3>
-          <canvas id="profitChart"></canvas>
+        <div class="card">
+          <h3>🥧 Pembagian Keuntungan</h3>
+          <div class="pie-simple">
+            <div class="pie-chart"></div>
+            <div class="pie-legend">
+              <div class="legend-item">
+                <div class="legend-color" style="background: #4299e1"></div>
+                <span>Investor (60%)</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-color" style="background: #48bb78"></div>
+                <span>Petani (25%)</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-color" style="background: #ed8936"></div>
+                <span>Operasional (15%)</span>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div class="table-container">
-          <div class="table-header">
-            <h3 class="table-title">💰 Detail Pembagian Keuntungan</h3>
-          </div>
+        <div class="card">
+          <h3>💰 Detail Pembagian</h3>
           <table>
             <thead>
               <tr>
                 <th>Kategori</th>
                 <th>Persentase</th>
-                <th>Jumlah (Rp)</th>
+                <th>Jumlah</th>
                 <th>Keterangan</th>
               </tr>
             </thead>
@@ -736,49 +801,43 @@
               <tr>
                 <td>Investor</td>
                 <td>60%</td>
-                <td>Rp 27,000,000</td>
-                <td>Dibagi sesuai proporsi investasi</td>
+                <td>Rp 27M</td>
+                <td>Sesuai proporsi investasi</td>
               </tr>
               <tr>
                 <td>Petani</td>
                 <td>25%</td>
-                <td>Rp 11,250,000</td>
-                <td>Upah pengelolaan lahan</td>
+                <td>Rp 11.25M</td>
+                <td>Upah pengelolaan</td>
               </tr>
               <tr>
                 <td>Operasional</td>
                 <td>15%</td>
-                <td>Rp 6,750,000</td>
-                <td>Biaya operasional & manajemen</td>
+                <td>Rp 6.75M</td>
+                <td>Biaya operasional</td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
 
-      <!-- ABOUT PAGE -->
+      <!-- ABOUT -->
       <div id="about" class="page">
-        <div class="about-content">
-          <h2 class="about-title">🌾 Tentang Program Pertanian Bawang Merah</h2>
-          <p class="about-text">
-            Iluze Agritech adalah platform investasi pertanian yang
-            menghubungkan investor dengan petani bawang merah berpengalaman.
-            Kami menggunakan teknologi modern dan metode pertanian berkelanjutan
-            untuk menghasilkan bawang merah berkualitas tinggi dengan sistem
-            bagi hasil yang transparan dan menguntungkan.
+        <div class="card">
+          <h3>🌾 Tentang Program Pertanian Bawang Merah</h3>
+          <p>
+            Iluze Agritech menghubungkan investor dengan petani bawang merah
+            berpengalaman menggunakan teknologi modern dan metode berkelanjutan.
           </p>
-          <p class="about-text">
-            <strong>Lokasi Lahan:</strong> Brebes, Jawa Tengah - dikenal sebagai
-            sentra bawang merah terbesar di Indonesia.<br />
-            <strong>Metode Tanam:</strong> Sistem tanam modern dengan rotasi
-            tanaman dan pupuk organik.<br />
-            <strong>Sistem Pengairan:</strong> Irigasi tetes (drip irrigation)
-            untuk efisiensi air dan nutrisi.<br />
-            <strong>Manajemen:</strong> Tim ahli pertanian dengan pengalaman 15+
-            tahun di bidang hortikultura.
+          <p>
+            <strong>Lokasi:</strong> Brebes, Jawa Tengah<br />
+            <strong>Metode:</strong> Sistem tanam modern dengan rotasi
+            tanaman<br />
+            <strong>Pengairan:</strong> Irigasi tetes untuk efisiensi<br />
+            <strong>Manajemen:</strong> Tim ahli 15+ tahun pengalaman
           </p>
 
-          <div class="contact-info">
+          <div class="contact-grid">
             <div class="contact-item">
               <div class="contact-icon">📞</div>
               <h4>Telepon</h4>
@@ -792,59 +851,44 @@
             <div class="contact-item">
               <div class="contact-icon">📍</div>
               <h4>Alamat</h4>
-              <p>Jl. Pertanian No. 123<br />Brebes, Jawa Tengah</p>
+              <p>Brebes, Jawa Tengah</p>
             </div>
             <div class="contact-item">
               <div class="contact-icon">🌐</div>
-              <h4>Media Sosial</h4>
-              <p>@iluzeagritech<br />Instagram & Facebook</p>
+              <h4>Sosial Media</h4>
+              <p>@iluzeagritech</p>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Footer -->
     <footer class="footer">
       <p>© 2025 Iluze Agritech. Semua hak dilindungi undang-undang.</p>
     </footer>
 
     <script>
-      // UBAH TANGGAL PANEN DI SINI (format: YYYY-MM-DD HH:MM:SS)
-      const harvestDate = new Date("2025-03-15 08:00:00").getTime();
+      // UBAH TANGGAL PANEN DI SINI
+      const harvestDate = new Date("2025-11-01 08:00:00").getTime();
 
-      // Navigation Functions
       function showPage(pageId) {
-        // Hide all pages
-        const pages = document.querySelectorAll(".page");
-        pages.forEach((page) => page.classList.remove("active"));
+        document
+          .querySelectorAll(".page")
+          .forEach((p) => p.classList.remove("active"));
+        document
+          .querySelectorAll(".nav-link")
+          .forEach((n) => n.classList.remove("active"));
 
-        // Show selected page
         document.getElementById(pageId).classList.add("active");
-
-        // Update navigation
-        const navItems = document.querySelectorAll(".nav-item");
-        navItems.forEach((item) => item.classList.remove("active"));
         event.target.classList.add("active");
 
-        // Close mobile menu
-        document.getElementById("navMenu").classList.remove("active");
-
-        // Initialize charts when needed
-        if (pageId === "investment") {
-          setTimeout(initInvestmentChart, 100);
-        } else if (pageId === "growth") {
-          setTimeout(initHarvestChart, 100);
-        } else if (pageId === "profit") {
-          setTimeout(initProfitChart, 100);
-        }
+        document.getElementById("navLinks").classList.remove("active");
       }
 
-      function toggleMobileMenu() {
-        document.getElementById("navMenu").classList.toggle("active");
+      function toggleMenu() {
+        document.getElementById("navLinks").classList.toggle("active");
       }
 
-      // Countdown Function
       function updateCountdown() {
         const now = new Date().getTime();
         const distance = harvestDate - now;
@@ -864,207 +908,47 @@
           document.getElementById("minutes").textContent = minutes;
           document.getElementById("seconds").textContent = seconds;
         } else {
-          document.getElementById("countdown").innerHTML =
-            '<div class="countdown-item"><span class="countdown-number">🎉</span><span class="countdown-label">Waktu Panen!</span></div>';
+          document.getElementById("timer").innerHTML =
+            '<div class="timer-item"><span class="timer-num">🎉</span><span class="timer-label">Waktu Panen!</span></div>';
         }
       }
 
-      // Chart Initialization Functions
-      let investmentChart, harvestChart, profitChart;
+      function exportData() {
+        const csv = `Nama,Investasi,Tanggal,Bagi Hasil
+Ahmad Wijaya,Rp 15M,15 Jan 2025,12.5%
+Siti Nurhaliza,Rp 10M,18 Jan 2025,8.3%
+Budi Santoso,Rp 20M,20 Jan 2025,16.7%
+Maya Sari,Rp 8M,22 Jan 2025,6.7%
+Rizki Pratama,Rp 12M,25 Jan 2025,10.0%`;
 
-      function initInvestmentChart() {
-        if (investmentChart) investmentChart.destroy();
-
-        const ctx = document.getElementById("investmentChart").getContext("2d");
-        investmentChart = new Chart(ctx, {
-          type: "bar",
-          data: {
-            labels: ["Oktober", "November", "Desember", "Januari", "Februari"],
-            datasets: [
-              {
-                label: "Modal Masuk (Juta Rupiah)",
-                data: [25, 35, 30, 20, 10],
-                backgroundColor: "rgba(72, 187, 120, 0.8)",
-                borderColor: "#48bb78",
-                borderWidth: 2,
-                borderRadius: 8,
-              },
-            ],
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: {
-                display: false,
-              },
-            },
-            scales: {
-              y: {
-                beginAtZero: true,
-                ticks: {
-                  callback: function (value) {
-                    return "Rp " + value + "M";
-                  },
-                },
-              },
-            },
-          },
-        });
-
-        document.getElementById("investmentChart").style.height = "300px";
-      }
-
-      function initHarvestChart() {
-        if (harvestChart) harvestChart.destroy();
-
-        const ctx = document.getElementById("harvestChart").getContext("2d");
-        harvestChart = new Chart(ctx, {
-          type: "line",
-          data: {
-            labels: [
-              "Minggu 1",
-              "Minggu 2",
-              "Minggu 3",
-              "Minggu 4",
-              "Minggu 5",
-              "Minggu 6",
-              "Minggu 7",
-              "Minggu 8",
-            ],
-            datasets: [
-              {
-                label: "Hasil Panen (kg)",
-                data: [0, 0, 80, 200, 450, 750, 1200, 1800],
-                borderColor: "#48bb78",
-                backgroundColor: "rgba(72, 187, 120, 0.1)",
-                borderWidth: 3,
-                fill: true,
-                tension: 0.4,
-                pointBackgroundColor: "#48bb78",
-                pointBorderColor: "#ffffff",
-                pointBorderWidth: 2,
-                pointRadius: 6,
-              },
-            ],
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: {
-                display: false,
-              },
-            },
-            scales: {
-              y: {
-                beginAtZero: true,
-                ticks: {
-                  callback: function (value) {
-                    return value + " kg";
-                  },
-                },
-              },
-            },
-          },
-        });
-
-        document.getElementById("harvestChart").style.height = "300px";
-      }
-
-      function initProfitChart() {
-        if (profitChart) profitChart.destroy();
-
-        const ctx = document.getElementById("profitChart").getContext("2d");
-        profitChart = new Chart(ctx, {
-          type: "doughnut",
-          data: {
-            labels: ["Investor (60%)", "Petani (25%)", "Operasional (15%)"],
-            datasets: [
-              {
-                data: [60, 25, 15],
-                backgroundColor: ["#4299e1", "#48bb78", "#ed8936"],
-                borderWidth: 0,
-              },
-            ],
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: {
-                position: "bottom",
-                labels: {
-                  padding: 20,
-                  font: {
-                    size: 14,
-                  },
-                },
-              },
-            },
-          },
-        });
-
-        document.getElementById("profitChart").style.height = "300px";
-      }
-
-      // Export Function
-      function exportToCSV() {
-        const csvContent = `Nama Investor,Jumlah Investasi,Tanggal Bergabung,Persentase Bagi Hasil
-Ahmad Wijaya,Rp 15000000,15 Jan 2025,12.5%
-Siti Nurhaliza,Rp 10000000,18 Jan 2025,8.3%
-Budi Santoso,Rp 20000000,20 Jan 2025,16.7%
-Maya Sari,Rp 8000000,22 Jan 2025,6.7%
-Rizki Pratama,Rp 12000000,25 Jan 2025,10.0%`;
-
-        const blob = new Blob([csvContent], { type: "text/csv" });
-        const url = window.URL.createObjectURL(blob);
+        const blob = new Blob([csv], { type: "text/csv" });
+        const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
         a.download = "data_investor.csv";
         a.click();
-        window.URL.revokeObjectURL(url);
+        URL.revokeObjectURL(url);
       }
 
-      // Investment Modal
-      function showInvestmentModal() {
+      function showModal() {
         const modal = document.createElement("div");
-        modal.style.cssText = `
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: rgba(0,0,0,0.5);
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                z-index: 1000;
-            `;
+        modal.style.cssText = `position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; z-index: 1000;`;
 
         modal.innerHTML = `
-                <div style="background: white; padding: 40px; border-radius: 20px; max-width: 500px; width: 90%; text-align: center;">
-                    <h3 style="color: #2f855a; margin-bottom: 20px; font-size: 1.8rem;">🌱 Terima Kasih atas Minat Anda!</h3>
-                    <p style="color: #718096; margin-bottom: 25px; font-size: 1.1rem;">Hubungi tim kami untuk informasi investasi lebih lanjut dan proses pendaftaran.</p>
-                    <div style="margin-bottom: 25px;">
-                        <p style="margin: 10px 0;"><strong>📞 Telepon:</strong> +62 812-3456-7890</p>
-                        <p style="margin: 10px 0;"><strong>📧 Email:</strong> info@iluzeagritech.com</p>
-                        <p style="margin: 10px 0;"><strong>💬 WhatsApp:</strong> +62 812-3456-7890</p>
-                    </div>
-                    <button onclick="this.closest('div').parentElement.remove()" style="background: #48bb78; color: white; border: none; padding: 12px 25px; border-radius: 10px; cursor: pointer; font-size: 1rem; font-weight: 600;">Tutup</button>
+                <div style="background: white; padding: 30px; border-radius: 15px; max-width: 400px; width: 90%; text-align: center;">
+                    <h3 style="color: #2f855a; margin-bottom: 15px;">🌱 Terima Kasih!</h3>
+                    <p style="color: #718096; margin-bottom: 20px;">Hubungi kami untuk informasi investasi:</p>
+                    <p><strong>📞</strong> +62 812-3456-7890</p>
+                    <p><strong>📧</strong> info@iluzeagritech.com</p>
+                    <button onclick="this.closest('div').parentElement.remove()" style="background: #48bb78; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; margin-top: 15px;">Tutup</button>
                 </div>
             `;
 
-        modal.onclick = (e) => {
-          if (e.target === modal) {
-            document.body.removeChild(modal);
-          }
-        };
-
+        modal.onclick = (e) =>
+          e.target === modal && document.body.removeChild(modal);
         document.body.appendChild(modal);
       }
 
-      // Initialize
       setInterval(updateCountdown, 1000);
       updateCountdown();
     </script>
@@ -1075,7 +959,7 @@ Rizki Pratama,Rp 12000000,25 Jan 2025,10.0%`;
           if (b) {
             var d = b.createElement("script");
             d.innerHTML =
-              "window.__CF$cv$params={r:'9954333b26dcb5dc',t:'MTc2MTU4OTE1MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
+              "window.__CF$cv$params={r:'9954606f83973ef7',t:'MTc2MTU5MTAwMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
             b.getElementsByTagName("head")[0].appendChild(d);
           }
         }
