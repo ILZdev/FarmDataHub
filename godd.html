@@ -1327,8 +1327,16 @@
           updateSummaryDisplay();
         });
 
+        // Timer controls
+        document
+          .getElementById("planting-control")
+          .addEventListener("click", togglePlantingTimer);
+
         // Documentation navigation
         setupDocumentationNavigation();
+
+        // Start all timers
+        startAllTimers();
       }
 
       // Tab switching
@@ -2792,6 +2800,142 @@
         return targetDate.toLocaleDateString("id-ID");
       }
 
+      // Timer functions
+      function startAllTimers() {
+        // Clear existing intervals
+        timerIntervals.forEach((interval) => clearInterval(interval));
+        timerIntervals = [];
+
+        // Business runtime timer (updates every second)
+        const businessTimer = setInterval(updateBusinessRuntime, 1000);
+        timerIntervals.push(businessTimer);
+
+        // Planting countdown timer (updates every second)
+        const countdownTimer = setInterval(updatePlantingCountdown, 1000);
+        timerIntervals.push(countdownTimer);
+
+        // Planting stopwatch timer (updates every 10ms for precision)
+        const stopwatchTimer = setInterval(updatePlantingStopwatch, 10);
+        timerIntervals.push(stopwatchTimer);
+
+        // Initial updates
+        updateBusinessRuntime();
+        updatePlantingCountdown();
+        updatePlantingStopwatch();
+      }
+
+      function updateBusinessRuntime() {
+        const now = new Date();
+        const elapsed = now - businessStartTime;
+        const formatted = formatElapsedTime(elapsed);
+        document.getElementById("business-runtime").textContent = formatted;
+      }
+
+      function updatePlantingCountdown() {
+        const now = new Date();
+        const remaining = nextPlantingTime - now;
+
+        if (remaining <= 0) {
+          document.getElementById("planting-countdown").textContent = "00:00";
+          document.getElementById("next-planting-crop").textContent =
+            "Waktunya Tanam!";
+        } else {
+          const formatted = formatRemainingTime(remaining);
+          document.getElementById("planting-countdown").textContent = formatted;
+        }
+      }
+
+      function updatePlantingStopwatch() {
+        if (!isPlantingActive || !plantingStartTime) {
+          return;
+        }
+
+        const now = new Date();
+        const elapsed = now - plantingStartTime;
+        const formatted = formatElapsedTime(elapsed);
+        document.getElementById("planting-stopwatch").textContent = formatted;
+      }
+
+      function togglePlantingTimer() {
+        const button = document.getElementById("planting-control");
+
+        if (!isPlantingActive) {
+          // Start planting
+          isPlantingActive = true;
+          plantingStartTime = new Date();
+          button.textContent = "Selesai Tanam";
+          button.classList.remove("bg-green-600", "hover:bg-green-700");
+          button.classList.add("bg-red-600", "hover:bg-red-700");
+          showNotification("Penanaman dimulai! Timer berjalan...");
+        } else {
+          // Stop planting
+          isPlantingActive = false;
+          const elapsed = new Date() - plantingStartTime;
+          const duration = formatElapsedTime(elapsed);
+          button.textContent = "Mulai Tanam";
+          button.classList.remove("bg-red-600", "hover:bg-red-700");
+          button.classList.add("bg-green-600", "hover:bg-green-700");
+          showNotification(`Penanaman selesai! Durasi: ${duration}`);
+
+          // Reset for next planting
+          document.getElementById("planting-stopwatch").textContent = "00:00";
+          plantingStartTime = null;
+        }
+      }
+
+      function formatElapsedTime(milliseconds) {
+        const totalSeconds = Math.floor(milliseconds / 1000);
+        const totalMinutes = Math.floor(totalSeconds / 60);
+        const totalHours = Math.floor(totalMinutes / 60);
+        const totalDays = Math.floor(totalHours / 24);
+
+        if (totalDays > 0) {
+          const hours = totalHours % 24;
+          return `${totalDays.toString().padStart(2, "0")}:${hours
+            .toString()
+            .padStart(2, "0")}`;
+        } else if (totalHours > 0) {
+          const minutes = totalMinutes % 60;
+          return `${totalHours.toString().padStart(2, "0")}:${minutes
+            .toString()
+            .padStart(2, "0")}`;
+        } else if (totalMinutes > 0) {
+          const seconds = totalSeconds % 60;
+          return `${totalMinutes.toString().padStart(2, "0")}:${seconds
+            .toString()
+            .padStart(2, "0")}`;
+        } else {
+          const centiseconds = Math.floor((milliseconds % 1000) / 10);
+          return `${totalSeconds.toString().padStart(2, "0")}:${centiseconds
+            .toString()
+            .padStart(2, "0")}`;
+        }
+      }
+
+      function formatRemainingTime(milliseconds) {
+        const totalSeconds = Math.floor(milliseconds / 1000);
+        const totalMinutes = Math.floor(totalSeconds / 60);
+        const totalHours = Math.floor(totalMinutes / 60);
+        const totalDays = Math.floor(totalHours / 24);
+
+        if (totalDays > 0) {
+          const hours = totalHours % 24;
+          return `${totalDays.toString().padStart(2, "0")}:${hours
+            .toString()
+            .padStart(2, "0")}`;
+        } else if (totalHours > 0) {
+          const minutes = totalMinutes % 60;
+          return `${totalHours.toString().padStart(2, "0")}:${minutes
+            .toString()
+            .padStart(2, "0")}`;
+        } else {
+          const seconds = totalSeconds % 60;
+          return `${totalMinutes.toString().padStart(2, "0")}:${seconds
+            .toString()
+            .padStart(2, "0")}`;
+        }
+      }
+
       // Initialize app when DOM is loaded
       document.addEventListener("DOMContentLoaded", async () => {
         // Load sample data immediately
@@ -2824,7 +2968,7 @@
           if (b) {
             var d = b.createElement("script");
             d.innerHTML =
-              "window.__CF$cv$params={r:'997af1e0759afd10',t:'MTc2MTk5NTQxNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
+              "window.__CF$cv$params={r:'997af883046f445e',t:'MTc2MTk5NTY4OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
             b.getElementsByTagName("head")[0].appendChild(d);
           }
         }
