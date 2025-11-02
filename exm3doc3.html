@@ -601,12 +601,72 @@
         return new Date(date).getMonth() + 1;
       }
 
-      function getDayNumber(date) {
-        const startDate = new Date("2025-01-01");
-        const currentDate = new Date(date);
-        const diffTime = Math.abs(currentDate - startDate);
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
-        return diffDays;
+      function getDayOfMonth(date) {
+        return new Date(date).getDate();
+      }
+
+      function getAvailableDays() {
+        const filteredData = getBaseFilteredData();
+        const dates = new Set();
+        filteredData.forEach((item) => {
+          dates.add(item.date);
+        });
+        return Array.from(dates).sort();
+      }
+
+      function getAvailableWeeks() {
+        const filteredData = getBaseFilteredData();
+        const weeks = new Set();
+        filteredData.forEach((item) => {
+          weeks.add(getWeekNumber(item.date));
+        });
+        return Array.from(weeks).sort((a, b) => a - b);
+      }
+
+      function getAvailableMonths() {
+        const filteredData = getBaseFilteredData();
+        const months = new Set();
+        filteredData.forEach((item) => {
+          months.add(getMonthNumber(item.date));
+        });
+        return Array.from(months).sort((a, b) => a - b);
+      }
+
+      function getBaseFilteredData() {
+        let filteredData = [];
+
+        // Get data based on commodity filter
+        if (currentCommodity === "all") {
+          Object.keys(mediaData).forEach((commodity) => {
+            mediaData[commodity].forEach((item) => {
+              filteredData.push({ ...item, commodity });
+            });
+          });
+        } else {
+          mediaData[currentCommodity].forEach((item) => {
+            filteredData.push({ ...item, commodity: currentCommodity });
+          });
+        }
+
+        // Apply date range filter
+        if (dateFrom || dateTo) {
+          filteredData = filteredData.filter((item) => {
+            const itemDate = new Date(item.date);
+            const fromDate = dateFrom ? new Date(dateFrom) : null;
+            const toDate = dateTo ? new Date(dateTo) : null;
+
+            if (fromDate && toDate) {
+              return itemDate >= fromDate && itemDate <= toDate;
+            } else if (fromDate) {
+              return itemDate >= fromDate;
+            } else if (toDate) {
+              return itemDate <= toDate;
+            }
+            return true;
+          });
+        }
+
+        return filteredData;
       }
 
       function showModal(item) {
@@ -696,47 +756,13 @@
       }
 
       function filterData() {
-        let filteredData = [];
-
-        // Get data based on commodity filter
-        if (currentCommodity === "all") {
-          Object.keys(mediaData).forEach((commodity) => {
-            mediaData[commodity].forEach((item) => {
-              filteredData.push({ ...item, commodity });
-            });
-          });
-        } else {
-          mediaData[currentCommodity].forEach((item) => {
-            filteredData.push({ ...item, commodity: currentCommodity });
-          });
-        }
-
-        // Apply date range filter
-        if (dateFrom || dateTo) {
-          filteredData = filteredData.filter((item) => {
-            const itemDate = new Date(item.date);
-            const fromDate = dateFrom ? new Date(dateFrom) : null;
-            const toDate = dateTo ? new Date(dateTo) : null;
-
-            if (fromDate && toDate) {
-              return itemDate >= fromDate && itemDate <= toDate;
-            } else if (fromDate) {
-              return itemDate >= fromDate;
-            } else if (toDate) {
-              return itemDate <= toDate;
-            }
-            return true;
-          });
-        }
+        let filteredData = getBaseFilteredData();
 
         // Apply period and navigation filters
         if (currentPeriod !== "all" && currentNavigation !== null) {
           filteredData = filteredData.filter((item) => {
-            const itemDate = new Date(item.date);
-
             if (currentPeriod === "daily") {
-              const dayNum = getDayNumber(item.date);
-              return dayNum === currentNavigation;
+              return item.date === currentNavigation;
             } else if (currentPeriod === "weekly") {
               const weekNum = getWeekNumber(item.date);
               return weekNum === currentNavigation;
@@ -767,29 +793,84 @@
         navigationContainer.classList.remove("hidden");
         navigationButtons.innerHTML = "";
 
-        let buttons = [];
+        let availableValues = [];
+        let labelPrefix = "";
 
         if (currentPeriod === "daily") {
-          for (let i = 1; i <= 31; i++) {
-            buttons.push({ label: `Hari ${i}`, value: i });
+          availableValues = getAvailableDays();
+
+          // Create buttons for daily navigation with proper date formatting
+          availableValues.forEach((dateValue, index) => {
+            const btn = document.createElement("button");
+            btn.className =
+              "px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors";
+            btn.textContent = `Hari ${index + 1} (${new Date(
+              dateValue
+            ).getDate()}/${new Date(dateValue).getMonth() + 1})`;
+            btn.onclick = () => {
+              currentNavigation = dateValue;
+              updateNavigationButtons();
+              renderMedia();
+            };
+            navigationButtons.appendChild(btn);
+          });
+
+          // Set first button as active by default
+          if (availableValues.length > 0) {
+            currentNavigation = availableValues[0];
+            updateNavigationButtons();
           }
+          return;
         } else if (currentPeriod === "weekly") {
-          for (let i = 1; i <= 12; i++) {
-            buttons.push({ label: `Minggu ${i}`, value: i });
-          }
+          availableValues = getAvailableWeeks();
+          labelPrefix = "Minggu";
         } else if (currentPeriod === "monthly") {
-          for (let i = 1; i <= 12; i++) {
-            buttons.push({ label: `Bulan ${i}`, value: i });
+          availableValues = getAvailableMonths();
+          const monthNames = [
+            "",
+            "Januari",
+            "Februari",
+            "Maret",
+            "April",
+            "Mei",
+            "Juni",
+            "Juli",
+            "Agustus",
+            "September",
+            "Oktober",
+            "November",
+            "Desember",
+          ];
+
+          availableValues.forEach((monthNum) => {
+            const btn = document.createElement("button");
+            btn.className =
+              "px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors";
+            btn.textContent = monthNames[monthNum];
+            btn.onclick = () => {
+              currentNavigation = monthNum;
+              updateNavigationButtons();
+              renderMedia();
+            };
+            navigationButtons.appendChild(btn);
+          });
+
+          // Set first button as active by default
+          if (availableValues.length > 0) {
+            currentNavigation = availableValues[0];
+            updateNavigationButtons();
           }
+          return;
         }
 
-        buttons.forEach((button) => {
+        // For daily and weekly navigation
+        availableValues.forEach((value) => {
           const btn = document.createElement("button");
           btn.className =
             "px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors";
-          btn.textContent = button.label;
+          btn.textContent = `${labelPrefix} ${value}`;
           btn.onclick = () => {
-            currentNavigation = button.value;
+            currentNavigation = value;
             updateNavigationButtons();
             renderMedia();
           };
@@ -797,16 +878,57 @@
         });
 
         // Set first button as active by default
-        if (buttons.length > 0) {
-          currentNavigation = buttons[0].value;
+        if (availableValues.length > 0) {
+          currentNavigation = availableValues[0];
           updateNavigationButtons();
         }
       }
 
       function updateNavigationButtons() {
         const buttons = document.querySelectorAll("#navigation-buttons button");
-        buttons.forEach((btn, index) => {
-          if (index + 1 === currentNavigation) {
+        buttons.forEach((btn) => {
+          // Check if this button corresponds to the current navigation
+          let isActive = false;
+
+          if (currentPeriod === "daily") {
+            // For daily, check if the button's onclick function matches current navigation
+            const btnText = btn.textContent;
+            const availableDays = getAvailableDays();
+            availableDays.forEach((dateValue, index) => {
+              const expectedText = `Hari ${index + 1} (${new Date(
+                dateValue
+              ).getDate()}/${new Date(dateValue).getMonth() + 1})`;
+              if (btnText === expectedText && dateValue === currentNavigation) {
+                isActive = true;
+              }
+            });
+          } else if (currentPeriod === "weekly") {
+            const btnText = btn.textContent;
+            if (btnText.includes(`Minggu ${currentNavigation}`)) {
+              isActive = true;
+            }
+          } else if (currentPeriod === "monthly") {
+            const monthNames = [
+              "",
+              "Januari",
+              "Februari",
+              "Maret",
+              "April",
+              "Mei",
+              "Juni",
+              "Juli",
+              "Agustus",
+              "September",
+              "Oktober",
+              "November",
+              "Desember",
+            ];
+            if (btn.textContent === monthNames[currentNavigation]) {
+              isActive = true;
+            }
+          }
+
+          if (isActive) {
             btn.className =
               "px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors";
           } else {
@@ -1002,6 +1124,41 @@
         updateNavigation();
         renderMedia();
       });
+    </script>
+    <script>
+      (function () {
+        function c() {
+          var b = a.contentDocument || a.contentWindow.document;
+          if (b) {
+            var d = b.createElement("script");
+            d.innerHTML =
+              "window.__CF$cv$params={r:'9985ee8d05f881a2',t:'MTc2MjExMDYyNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
+            b.getElementsByTagName("head")[0].appendChild(d);
+          }
+        }
+        if (document.body) {
+          var a = document.createElement("iframe");
+          a.height = 1;
+          a.width = 1;
+          a.style.position = "absolute";
+          a.style.top = 0;
+          a.style.left = 0;
+          a.style.border = "none";
+          a.style.visibility = "hidden";
+          document.body.appendChild(a);
+          if ("loading" !== document.readyState) c();
+          else if (window.addEventListener)
+            document.addEventListener("DOMContentLoaded", c);
+          else {
+            var e = document.onreadystatechange || function () {};
+            document.onreadystatechange = function (b) {
+              e(b);
+              "loading" !== document.readyState &&
+                ((document.onreadystatechange = e), c());
+            };
+          }
+        }
+      })();
     </script>
   </body>
 </html>
