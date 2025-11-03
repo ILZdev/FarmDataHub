@@ -228,7 +228,7 @@ const sampleTransactions = [
 ];
 
 // Konfigurasi default
-const defaultConfig = {
+const defaultConfigMoney = {
   app_title: "Laporan Keuangan Pertanian",
   income_label: "Total Pemasukan",
   expense_label: "Total Pengeluaran",
@@ -243,16 +243,16 @@ async function initializeApp() {
   // Inisialisasi Element SDK
   if (window.elementSdk) {
     await window.elementSdk.init({
-      defaultConfig,
+      defaultConfigMoney,
       onConfigChange: async (config) => {
         document.getElementById("app-title").textContent =
-          config.app_title || defaultConfig.app_title;
+          config.app_title || defaultConfigMoney.app_title;
         document.getElementById("income-label").textContent =
-          config.income_label || defaultConfig.income_label;
+          config.income_label || defaultConfigMoney.income_label;
         document.getElementById("expense-label").textContent =
-          config.expense_label || defaultConfig.expense_label;
+          config.expense_label || defaultConfigMoney.expense_label;
         document.getElementById("profit-label").textContent =
-          config.profit_label || defaultConfig.profit_label;
+          config.profit_label || defaultConfigMoney.profit_label;
       },
       mapToCapabilities: (config) => ({
         recolorables: [
@@ -331,13 +331,19 @@ async function initializeApp() {
       }),
       mapToEditPanelValues: (config) =>
         new Map([
-          ["app_title", config.app_title || defaultConfig.app_title],
-          ["income_label", config.income_label || defaultConfig.income_label],
+          ["app_title", config.app_title || defaultConfigMoney.app_title],
+          [
+            "income_label",
+            config.income_label || defaultConfigMoney.income_label,
+          ],
           [
             "expense_label",
-            config.expense_label || defaultConfig.expense_label,
+            config.expense_label || defaultConfigMoney.expense_label,
           ],
-          ["profit_label", config.profit_label || defaultConfig.profit_label],
+          [
+            "profit_label",
+            config.profit_label || defaultConfigMoney.profit_label,
+          ],
         ]),
     });
   }
