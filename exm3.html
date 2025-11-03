@@ -1150,7 +1150,199 @@
         </div>
         <!-- Dash Keuangan -->
         <div id="money-tab" class="tab-content hidden">
-          <div class="mb-6"><h1>Hello Keuangan</h1></div>
+          <div class="mb-6">
+            <div class="min-h-full p-4">
+              <div class="max-w-7xl mx-auto">
+                <!-- Header -->
+                <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+                  <h1
+                    id="app-title"
+                    class="text-3xl font-bold text-green-800 mb-2"
+                  >
+                    Laporan Keuangan Pertanian
+                  </h1>
+                  <p class="text-green-600">
+                    Laporan analisis keuangan usaha pertanian ILZbusiness
+                  </p>
+                </div>
+                <!-- Ringkasan Keuangan -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                  <div class="bg-white rounded-lg shadow-sm p-6">
+                    <h3
+                      id="income-label"
+                      class="text-sm font-medium text-gray-500 mb-2"
+                    >
+                      Total Pemasukan
+                    </h3>
+                    <p
+                      id="total-income"
+                      class="text-2xl font-bold text-green-600"
+                    >
+                      Rp 0
+                    </p>
+                  </div>
+                  <div class="bg-white rounded-lg shadow-sm p-6">
+                    <h3
+                      id="expense-label"
+                      class="text-sm font-medium text-gray-500 mb-2"
+                    >
+                      Total Pengeluaran
+                    </h3>
+                    <p
+                      id="total-expense"
+                      class="text-2xl font-bold text-red-600"
+                    >
+                      Rp 0
+                    </p>
+                  </div>
+                  <div class="bg-white rounded-lg shadow-sm p-6">
+                    <h3
+                      id="profit-label"
+                      class="text-sm font-medium text-gray-500 mb-2"
+                    >
+                      Laba/Rugi
+                    </h3>
+                    <p
+                      id="total-profit"
+                      class="text-2xl font-bold px-3 py-1 rounded-lg"
+                    >
+                      Rp 0
+                    </p>
+                  </div>
+                  <div class="bg-white rounded-lg shadow-sm p-6">
+                    <h3 class="text-sm font-medium text-gray-500 mb-2">
+                      Total Transaksi
+                    </h3>
+                    <p
+                      id="total-transactions"
+                      class="text-2xl font-bold text-blue-600"
+                    >
+                      0
+                    </p>
+                  </div>
+                </div>
+                <!-- Filter -->
+                <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+                  <h2 class="text-xl font-semibold text-gray-800 mb-4">
+                    Filter Transaksi
+                  </h2>
+                  <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div>
+                      <label
+                        for="filter-komoditas"
+                        class="block text-sm font-medium text-gray-700 mb-2"
+                        >Komoditas</label
+                      >
+                      <select
+                        id="filter-komoditas"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                      >
+                        <option value="">Semua Komoditas</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label
+                        for="filter-jenis"
+                        class="block text-sm font-medium text-gray-700 mb-2"
+                        >Jenis</label
+                      >
+                      <select
+                        id="filter-jenis"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                      >
+                        <option value="">Semua Jenis</option>
+                        <option value="pemasukan">Pemasukan</option>
+                        <option value="pengeluaran">Pengeluaran</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label
+                        for="filter-dari"
+                        class="block text-sm font-medium text-gray-700 mb-2"
+                        >Dari Tanggal</label
+                      >
+                      <input
+                        type="date"
+                        id="filter-dari"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                      />
+                    </div>
+                    <div>
+                      <label
+                        for="filter-sampai"
+                        class="block text-sm font-medium text-gray-700 mb-2"
+                        >Sampai Tanggal</label
+                      >
+                      <input
+                        type="date"
+                        id="filter-sampai"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <!-- Tabel Transaksi -->
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+                  <div class="p-6 border-b border-gray-200">
+                    <h2 class="text-xl font-semibold text-gray-800">
+                      Daftar Transaksi
+                    </h2>
+                  </div>
+                  <div class="overflow-x-auto">
+                    <table class="w-full">
+                      <thead class="bg-gray-50">
+                        <tr>
+                          <th
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          >
+                            Tanggal
+                          </th>
+                          <th
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          >
+                            Jenis
+                          </th>
+                          <th
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          >
+                            Kategori
+                          </th>
+                          <th
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          >
+                            Komoditas
+                          </th>
+                          <th
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          >
+                            Nominal
+                          </th>
+                          <th
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          >
+                            Keterangan
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody
+                        id="transactions-table"
+                        class="bg-white divide-y divide-gray-200"
+                      >
+                        <tr id="empty-state">
+                          <td
+                            colspan="6"
+                            class="px-6 py-8 text-center text-gray-500"
+                          >
+                            Tidak ada data transaksi yang sesuai dengan filter
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <!-- Dash contoh -->
         <div id="inventory-tab" class="tab-content hidden">
@@ -1477,6 +1669,7 @@
       })();
     </script>
 
-    <script src="em3doc.js"></script>
+    <script src="exm3doc.js"></script>
+    <script src="exm3money.js"></script>
   </body>
 </html>
