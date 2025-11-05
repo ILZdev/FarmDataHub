@@ -759,9 +759,8 @@
       }
     </style>
 
-    
-<style>
-  /* Doumentation */
+    <style>
+      /* Doumentation */
       .video-container {
         position: relative;
         width: 100%;
@@ -795,9 +794,9 @@
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
       }
     </style>
-    
+
     <style>
-    /* Money */
+      /* Money */
       .profit-positive {
         color: #059669;
         background-color: #d1fae5;
@@ -809,11 +808,11 @@
       .loading {
         opacity: 0.6;
         pointer-events: none;
-      }</style>
-    
-    
+      }
+    </style>
+
     <style>
-    /* Inventory */
+      /* Inventory */
       .notification-slide {
         animation: slideIn 0.3s ease-out;
       }
@@ -1432,140 +1431,411 @@
         </div>
         <!-- Dash Inventory -->
         <div id="inventory-tab" class="tab-content hidden">
-          <div class="mb-6"><div id="app" class="min-h-full p-6">
-      <!-- Header -->
-      <header class="mb-8">
-        <div class="text-center">
-          <h1
-            id="dashboard-title"
-            class="text-4xl font-bold text-green-800 mb-2"
-          >
-            Manajemen Inventori Pertanian
-          </h1>
-          <p id="farm-name" class="text-xl text-green-600">ILZ Business</p>
-        </div>
-      </header>
-      <!-- Summary Cards -->
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        <div
-          class="bg-white rounded-lg shadow-md p-6 border-l-4 border-green-500"
-        >
-          <div class="flex items-center">
-            <div class="text-green-600 text-2xl mr-4">📦</div>
-            <div>
-              <p class="text-sm font-medium text-gray-600">Total Barang</p>
-              <p id="total-items" class="text-2xl font-bold text-gray-900">0</p>
+          <div class="mb-6">
+            <div id="app" class="min-h-full p-6">
+              <!-- Header -->
+              <header class="mb-8">
+                <div class="text-center">
+                  <h1
+                    id="dashboard-title"
+                    class="text-4xl font-bold text-green-800 mb-2"
+                  >
+                    Manajemen Inventori Pertanian
+                  </h1>
+                  <p id="farm-name" class="text-xl text-green-600">
+                    ILZ Business
+                  </p>
+                </div>
+              </header>
+              <!-- Summary Cards -->
+              <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                <div
+                  class="bg-white rounded-lg shadow-md p-6 border-l-4 border-green-500"
+                >
+                  <div class="flex items-center">
+                    <div class="text-green-600 text-2xl mr-4">📦</div>
+                    <div>
+                      <p class="text-sm font-medium text-gray-600">
+                        Total Barang
+                      </p>
+                      <p
+                        id="total-items"
+                        class="text-2xl font-bold text-gray-900"
+                      >
+                        0
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="bg-white rounded-lg shadow-md p-6 border-l-4 border-green-500"
+                >
+                  <div class="flex items-center">
+                    <div class="text-green-600 text-2xl mr-4">✅</div>
+                    <div>
+                      <p class="text-sm font-medium text-gray-600">Stok Aman</p>
+                      <p
+                        id="safe-items"
+                        class="text-2xl font-bold text-green-600"
+                      >
+                        0
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="bg-white rounded-lg shadow-md p-6 border-l-4 border-yellow-500"
+                >
+                  <div class="flex items-center">
+                    <div class="text-yellow-600 text-2xl mr-4">⚠️</div>
+                    <div>
+                      <p class="text-sm font-medium text-gray-600">
+                        Stok Menipis
+                      </p>
+                      <p
+                        id="low-items"
+                        class="text-2xl font-bold text-yellow-600"
+                      >
+                        0
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="bg-white rounded-lg shadow-md p-6 border-l-4 border-red-500"
+                >
+                  <div class="flex items-center">
+                    <div class="text-red-600 text-2xl mr-4">🚨</div>
+                    <div>
+                      <p class="text-sm font-medium text-gray-600">
+                        Stok Habis
+                      </p>
+                      <p
+                        id="empty-items"
+                        class="text-2xl font-bold text-red-600"
+                      >
+                        0
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Controls -->
+              <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                <div
+                  class="flex flex-col md:flex-row gap-4 items-start md:items-end"
+                >
+                  <div class="flex-1">
+                    <label
+                      for="commodity-filter"
+                      class="block text-sm font-medium text-gray-700 mb-2"
+                      >Filter Komoditas</label
+                    >
+                    <select
+                      id="commodity-filter"
+                      class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                    >
+                      <option value="">Semua Komoditas</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <!-- Inventory Table -->
+              <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="px-6 py-4 border-b border-gray-200">
+                  <h2 class="text-xl font-semibold text-gray-800">
+                    Daftar Inventori
+                  </h2>
+                </div>
+                <div class="overflow-x-auto">
+                  <table class="w-full">
+                    <thead class="bg-gray-50">
+                      <tr>
+                        <th
+                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          Nama Barang
+                        </th>
+                        <th
+                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          Jumlah
+                        </th>
+                        <th
+                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          Satuan
+                        </th>
+                        <th
+                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          Komoditas
+                        </th>
+                        <th
+                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          Status
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody
+                      id="inventory-table"
+                      class="bg-white divide-y divide-gray-200"
+                    >
+                      <tr id="empty-state" style="display: none">
+                        <td
+                          colspan="5"
+                          class="px-6 py-12 text-center text-gray-500"
+                        >
+                          <div class="text-6xl mb-4">📦</div>
+                          <p class="text-lg">Tidak ada data untuk filter ini</p>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <!-- Notifications Container -->
+              <div
+                id="notifications"
+                class="fixed top-4 right-4 z-50 space-y-2"
+              ></div>
             </div>
           </div>
-        </div>
-        <div
-          class="bg-white rounded-lg shadow-md p-6 border-l-4 border-green-500"
-        >
-          <div class="flex items-center">
-            <div class="text-green-600 text-2xl mr-4">✅</div>
-            <div>
-              <p class="text-sm font-medium text-gray-600">Stok Aman</p>
-              <p id="safe-items" class="text-2xl font-bold text-green-600">0</p>
-            </div>
-          </div>
-        </div>
-        <div
-          class="bg-white rounded-lg shadow-md p-6 border-l-4 border-yellow-500"
-        >
-          <div class="flex items-center">
-            <div class="text-yellow-600 text-2xl mr-4">⚠️</div>
-            <div>
-              <p class="text-sm font-medium text-gray-600">Stok Menipis</p>
-              <p id="low-items" class="text-2xl font-bold text-yellow-600">0</p>
-            </div>
-          </div>
-        </div>
-        <div
-          class="bg-white rounded-lg shadow-md p-6 border-l-4 border-red-500"
-        >
-          <div class="flex items-center">
-            <div class="text-red-600 text-2xl mr-4">🚨</div>
-            <div>
-              <p class="text-sm font-medium text-gray-600">Stok Habis</p>
-              <p id="empty-items" class="text-2xl font-bold text-red-600">0</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Controls -->
-      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-        <div class="flex flex-col md:flex-row gap-4 items-start md:items-end">
-          <div class="flex-1">
-            <label
-              for="commodity-filter"
-              class="block text-sm font-medium text-gray-700 mb-2"
-              >Filter Komoditas</label
-            >
-            <select
-              id="commodity-filter"
-              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-            >
-              <option value="">Semua Komoditas</option>
-            </select>
-          </div>
-        </div>
-      </div>
-      <!-- Inventory Table -->
-      <div class="bg-white rounded-lg shadow-md overflow-hidden">
-        <div class="px-6 py-4 border-b border-gray-200">
-          <h2 class="text-xl font-semibold text-gray-800">Daftar Inventori</h2>
-        </div>
-        <div class="overflow-x-auto">
-          <table class="w-full">
-            <thead class="bg-gray-50">
-              <tr>
-                <th
-                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
-                  Nama Barang
-                </th>
-                <th
-                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
-                  Jumlah
-                </th>
-                <th
-                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
-                  Satuan
-                </th>
-                <th
-                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
-                  Komoditas
-                </th>
-                <th
-                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
-                  Status
-                </th>
-              </tr>
-            </thead>
-            <tbody
-              id="inventory-table"
-              class="bg-white divide-y divide-gray-200"
-            >
-              <tr id="empty-state" style="display: none">
-                <td colspan="5" class="px-6 py-12 text-center text-gray-500">
-                  <div class="text-6xl mb-4">📦</div>
-                  <p class="text-lg">Tidak ada data untuk filter ini</p>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <!-- Notifications Container -->
-      <div id="notifications" class="fixed top-4 right-4 z-50 space-y-2"></div></div>
         </div>
         <!-- Dash Panen -->
         <div id="panen-tab" class="tab-content hidden">
-          <div class="mb-6"><h1>Hello Panen</h1></div>
+          <div class="mb-6">
+            <div class="max-w-7xl mx-auto">
+              <!-- Header -->
+              <header class="mb-8">
+                <h1
+                  id="dashboard-title"
+                  class="text-4xl font-bold text-green-800 mb-2"
+                >
+                  Dashboard Data Panen
+                </h1>
+                <p class="text-green-600">
+                  Monitoring jadwal tanam dan hasil panen pertanian
+                </p>
+              </header>
+              <!-- Countdown Card -->
+              <div
+                class="bg-white rounded-2xl shadow-lg p-6 mb-8 border-2 border-green-200"
+              >
+                <div class="flex items-center justify-between">
+                  <div>
+                    <h2
+                      id="countdown-label"
+                      class="text-xl font-semibold text-gray-700 mb-2"
+                    >
+                      🌾 Panen Terdekat
+                    </h2>
+                    <p
+                      id="countdown-komoditas"
+                      class="text-2xl font-bold text-green-700"
+                    >
+                      -
+                    </p>
+                  </div>
+                  <div class="text-right">
+                    <p class="text-gray-600 text-sm mb-1">Sisa Waktu</p>
+                    <p
+                      id="countdown-days"
+                      class="text-5xl font-bold text-green-600"
+                    >
+                      -
+                    </p>
+                    <p class="text-gray-500 text-sm mt-1">hari lagi</p>
+                  </div>
+                </div>
+              </div>
+              <!-- Tabel Data Panen -->
+              <div
+                class="bg-white rounded-2xl shadow-lg overflow-hidden border-2 border-green-200 mb-8"
+              >
+                <div class="p-6 bg-green-600">
+                  <h2 class="text-2xl font-bold text-white">📊 Data Panen</h2>
+                </div>
+                <div class="overflow-x-auto">
+                  <table class="w-full">
+                    <thead class="bg-green-100">
+                      <tr>
+                        <th
+                          class="px-6 py-4 text-left text-sm font-semibold text-green-800"
+                        >
+                          Komoditas
+                        </th>
+                        <th
+                          class="px-6 py-4 text-left text-sm font-semibold text-green-800"
+                        >
+                          Tanggal Tanam
+                        </th>
+                        <th
+                          class="px-6 py-4 text-left text-sm font-semibold text-green-800"
+                        >
+                          Perkiraan Panen
+                        </th>
+                        <th
+                          class="px-6 py-4 text-left text-sm font-semibold text-green-800"
+                        >
+                          Hasil Aktual
+                        </th>
+                        <th
+                          class="px-6 py-4 text-left text-sm font-semibold text-green-800"
+                        >
+                          Keberhasilan
+                        </th>
+                        <th
+                          class="px-6 py-4 text-left text-sm font-semibold text-green-800"
+                        >
+                          Status Countdown
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody id="table-body" class="divide-y divide-gray-200">
+                      <!-- Data akan diisi oleh JavaScript -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <!-- Tabel Data Penjualan -->
+              <div
+                class="bg-white rounded-2xl shadow-lg overflow-hidden border-2 border-blue-200"
+              >
+                <div class="p-6 bg-blue-600">
+                  <h2 class="text-2xl font-bold text-white">
+                    💰 Data Penjualan
+                  </h2>
+                </div>
+                <div class="overflow-x-auto">
+                  <table class="w-full">
+                    <thead class="bg-blue-100">
+                      <tr>
+                        <th
+                          class="px-6 py-4 text-left text-sm font-semibold text-blue-800"
+                        >
+                          Komoditas
+                        </th>
+                        <th
+                          class="px-6 py-4 text-left text-sm font-semibold text-blue-800"
+                        >
+                          Pembeli
+                        </th>
+                        <th
+                          class="px-6 py-4 text-left text-sm font-semibold text-blue-800"
+                        >
+                          Jumlah Terjual
+                        </th>
+                        <th
+                          class="px-6 py-4 text-left text-sm font-semibold text-blue-800"
+                        >
+                          Harga/Kg
+                        </th>
+                        <th
+                          class="px-6 py-4 text-left text-sm font-semibold text-blue-800"
+                        >
+                          Total Pemasukan
+                        </th>
+                        <th
+                          class="px-6 py-4 text-left text-sm font-semibold text-blue-800"
+                        >
+                          Tanggal Jual
+                        </th>
+                        <th
+                          class="px-6 py-4 text-left text-sm font-semibold text-blue-800"
+                        >
+                          Status Bayar
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody
+                      id="sales-table-body"
+                      class="divide-y divide-gray-200"
+                    >
+                      <!-- Data akan diisi oleh JavaScript -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <!-- Grafik Section -->
+              <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
+                <!-- Grafik Data Panen -->
+                <div
+                  class="bg-white rounded-2xl shadow-lg p-6 border-2 border-green-200"
+                >
+                  <h3 class="text-xl font-bold text-green-800 mb-4">
+                    📈 Grafik Hasil Panen vs Target
+                  </h3>
+                  <div class="space-y-4" id="panen-chart">
+                    <!-- Chart akan diisi oleh JavaScript -->
+                  </div>
+                </div>
+                <!-- Grafik Data Penjualan -->
+                <div
+                  class="bg-white rounded-2xl shadow-lg p-6 border-2 border-blue-200"
+                >
+                  <h3 class="text-xl font-bold text-blue-800 mb-4">
+                    💰 Grafik Penjualan per Komoditas
+                  </h3>
+                  <div class="space-y-4" id="sales-chart">
+                    <!-- Chart akan diisi oleh JavaScript -->
+                  </div>
+                </div>
+              </div>
+              <!-- Summary Cards -->
+              <div
+                class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8"
+              >
+                <div
+                  class="bg-white rounded-xl shadow-md p-6 border-l-4 border-green-500"
+                >
+                  <p class="text-gray-600 text-sm mb-1">Total Komoditas</p>
+                  <p
+                    id="total-komoditas"
+                    class="text-3xl font-bold text-green-700"
+                  >
+                    0
+                  </p>
+                </div>
+                <div
+                  class="bg-white rounded-xl shadow-md p-6 border-l-4 border-blue-500"
+                >
+                  <p class="text-gray-600 text-sm mb-1">Total Penjualan</p>
+                  <p
+                    id="total-penjualan"
+                    class="text-3xl font-bold text-blue-700"
+                  >
+                    Rp 0
+                  </p>
+                </div>
+                <div
+                  class="bg-white rounded-xl shadow-md p-6 border-l-4 border-yellow-500"
+                >
+                  <p class="text-gray-600 text-sm mb-1">Piutang Belum Lunas</p>
+                  <p
+                    id="piutang-belum-lunas"
+                    class="text-3xl font-bold text-yellow-700"
+                  >
+                    Rp 0
+                  </p>
+                </div>
+                <div
+                  class="bg-white rounded-xl shadow-md p-6 border-l-4 border-purple-500"
+                >
+                  <p class="text-gray-600 text-sm mb-1">
+                    Rata-rata Keberhasilan
+                  </p>
+                  <p
+                    id="avg-success"
+                    class="text-3xl font-bold text-purple-700"
+                  >
+                    0%
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <!-- Dash penyakit -->
         <div id="penyakit-tab" class="tab-content hidden">
@@ -1852,5 +2122,6 @@
     <script src="exm3doc.js"></script>
     <script src="exm3money.js"></script>
     <script src="exm3inventory.js"></script>
+    <script src="exm3datapanen.js"></script>
   </body>
 </html>

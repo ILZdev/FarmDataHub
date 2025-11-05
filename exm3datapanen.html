@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard Data Panen</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/_sdk/element_sdk.js"></script>
+    <style>
+      body {
+        box-sizing: border-box;
+      }
+    </style>
+    <style>
+      @view-transition {
+        navigation: auto;
+      }
+    </style>
+    <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  </head>
+  <body class="min-h-full bg-gradient-to-br from-green-50 to-emerald-100 p-6">
+    <div class="max-w-7xl mx-auto">
+      <!-- Header -->
+      <header class="mb-8">
+        <h1 id="dashboard-title" class="text-4xl font-bold text-green-800 mb-2">
+          Dashboard Data Panen
+        </h1>
+        <p class="text-green-600">
+          Monitoring jadwal tanam dan hasil panen pertanian
+        </p>
+      </header>
+      <!-- Countdown Card -->
+      <div
+        class="bg-white rounded-2xl shadow-lg p-6 mb-8 border-2 border-green-200"
+      >
+        <div class="flex items-center justify-between">
+          <div>
+            <h2
+              id="countdown-label"
+              class="text-xl font-semibold text-gray-700 mb-2"
+            >
+              🌾 Panen Terdekat
+            </h2>
+            <p
+              id="countdown-komoditas"
+              class="text-2xl font-bold text-green-700"
+            >
+              -
+            </p>
+          </div>
+          <div class="text-right">
+            <p class="text-gray-600 text-sm mb-1">Sisa Waktu</p>
+            <p id="countdown-days" class="text-5xl font-bold text-green-600">
+              -
+            </p>
+            <p class="text-gray-500 text-sm mt-1">hari lagi</p>
+          </div>
+        </div>
+      </div>
+      <!-- Tabel Data Panen -->
+      <div
+        class="bg-white rounded-2xl shadow-lg overflow-hidden border-2 border-green-200 mb-8"
+      >
+        <div class="p-6 bg-green-600">
+          <h2 class="text-2xl font-bold text-white">📊 Data Panen</h2>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead class="bg-green-100">
+              <tr>
+                <th
+                  class="px-6 py-4 text-left text-sm font-semibold text-green-800"
+                >
+                  Komoditas
+                </th>
+                <th
+                  class="px-6 py-4 text-left text-sm font-semibold text-green-800"
+                >
+                  Tanggal Tanam
+                </th>
+                <th
+                  class="px-6 py-4 text-left text-sm font-semibold text-green-800"
+                >
+                  Perkiraan Panen
+                </th>
+                <th
+                  class="px-6 py-4 text-left text-sm font-semibold text-green-800"
+                >
+                  Hasil Aktual
+                </th>
+                <th
+                  class="px-6 py-4 text-left text-sm font-semibold text-green-800"
+                >
+                  Keberhasilan
+                </th>
+                <th
+                  class="px-6 py-4 text-left text-sm font-semibold text-green-800"
+                >
+                  Status Countdown
+                </th>
+              </tr>
+            </thead>
+            <tbody id="table-body" class="divide-y divide-gray-200">
+              <!-- Data akan diisi oleh JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- Tabel Data Penjualan -->
+      <div
+        class="bg-white rounded-2xl shadow-lg overflow-hidden border-2 border-blue-200"
+      >
+        <div class="p-6 bg-blue-600">
+          <h2 class="text-2xl font-bold text-white">💰 Data Penjualan</h2>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead class="bg-blue-100">
+              <tr>
+                <th
+                  class="px-6 py-4 text-left text-sm font-semibold text-blue-800"
+                >
+                  Komoditas
+                </th>
+                <th
+                  class="px-6 py-4 text-left text-sm font-semibold text-blue-800"
+                >
+                  Pembeli
+                </th>
+                <th
+                  class="px-6 py-4 text-left text-sm font-semibold text-blue-800"
+                >
+                  Jumlah Terjual
+                </th>
+                <th
+                  class="px-6 py-4 text-left text-sm font-semibold text-blue-800"
+                >
+                  Harga/Kg
+                </th>
+                <th
+                  class="px-6 py-4 text-left text-sm font-semibold text-blue-800"
+                >
+                  Total Pemasukan
+                </th>
+                <th
+                  class="px-6 py-4 text-left text-sm font-semibold text-blue-800"
+                >
+                  Tanggal Jual
+                </th>
+                <th
+                  class="px-6 py-4 text-left text-sm font-semibold text-blue-800"
+                >
+                  Status Bayar
+                </th>
+              </tr>
+            </thead>
+            <tbody id="sales-table-body" class="divide-y divide-gray-200">
+              <!-- Data akan diisi oleh JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- Grafik Section -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
+        <!-- Grafik Data Panen -->
+        <div
+          class="bg-white rounded-2xl shadow-lg p-6 border-2 border-green-200"
+        >
+          <h3 class="text-xl font-bold text-green-800 mb-4">
+            📈 Grafik Hasil Panen vs Target
+          </h3>
+          <div class="space-y-4" id="panen-chart">
+            <!-- Chart akan diisi oleh JavaScript -->
+          </div>
+        </div>
+        <!-- Grafik Data Penjualan -->
+        <div
+          class="bg-white rounded-2xl shadow-lg p-6 border-2 border-blue-200"
+        >
+          <h3 class="text-xl font-bold text-blue-800 mb-4">
+            💰 Grafik Penjualan per Komoditas
+          </h3>
+          <div class="space-y-4" id="sales-chart">
+            <!-- Chart akan diisi oleh JavaScript -->
+          </div>
+        </div>
+      </div>
+      <!-- Summary Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
+        <div
+          class="bg-white rounded-xl shadow-md p-6 border-l-4 border-green-500"
+        >
+          <p class="text-gray-600 text-sm mb-1">Total Komoditas</p>
+          <p id="total-komoditas" class="text-3xl font-bold text-green-700">
+            0
+          </p>
+        </div>
+        <div
+          class="bg-white rounded-xl shadow-md p-6 border-l-4 border-blue-500"
+        >
+          <p class="text-gray-600 text-sm mb-1">Total Penjualan</p>
+          <p id="total-penjualan" class="text-3xl font-bold text-blue-700">
+            Rp 0
+          </p>
+        </div>
+        <div
+          class="bg-white rounded-xl shadow-md p-6 border-l-4 border-yellow-500"
+        >
+          <p class="text-gray-600 text-sm mb-1">Piutang Belum Lunas</p>
+          <p
+            id="piutang-belum-lunas"
+            class="text-3xl font-bold text-yellow-700"
+          >
+            Rp 0
+          </p>
+        </div>
+        <div
+          class="bg-white rounded-xl shadow-md p-6 border-l-4 border-purple-500"
+        >
+          <p class="text-gray-600 text-sm mb-1">Rata-rata Keberhasilan</p>
+          <p id="avg-success" class="text-3xl font-bold text-purple-700">0%</p>
+        </div>
+      </div>
+    </div>
+    <script>
+      const defaultConfig = {
+        dashboard_title: "Dashboard Data Panen",
+        countdown_label: "🌾 Panen Terdekat",
+        primary_color: "#16a34a",
+        surface_color: "#ffffff",
+        text_color: "#1f2937",
+        accent_color: "#22c55e",
+        background_color: "#f0fdf4",
+      };
+
+      const panenData = [
+        {
+          komoditas: "Timun",
+          tanggalTanam: "2025-01-10",
+          perkiraanPanen: "2025-02-15",
+          hasilAktual: 90,
+          target: 100,
+        },
+        {
+          komoditas: "Bawang Merah",
+          tanggalTanam: "2024-12-20",
+          perkiraanPanen: "2025-02-05",
+          hasilAktual: 70,
+          target: 120,
+        },
+        {
+          komoditas: "Cabai",
+          tanggalTanam: "2025-01-05",
+          perkiraanPanen: "2025-02-20",
+          hasilAktual: 50,
+          target: 80,
+        },
+        {
+          komoditas: "Tomat",
+          tanggalTanam: "2024-12-15",
+          perkiraanPanen: "2025-01-30",
+          hasilAktual: 110,
+          target: 100,
+        },
+        {
+          komoditas: "Kangkung",
+          tanggalTanam: "2025-01-20",
+          perkiraanPanen: "2025-02-10",
+          hasilAktual: 85,
+          target: 90,
+        },
+      ];
+
+      const penjualanData = [
+        {
+          komoditas: "Timun",
+          pembeli: "Pasar Induk Kramat Jati",
+          jumlahTerjual: 75,
+          hargaPerKg: 8000,
+          tanggalJual: "2025-01-25",
+          statusBayar: "Lunas",
+        },
+        {
+          komoditas: "Bawang Merah",
+          pembeli: "Supermarket Hero",
+          jumlahTerjual: 60,
+          hargaPerKg: 35000,
+          tanggalJual: "2025-01-20",
+          statusBayar: "Lunas",
+        },
+        {
+          komoditas: "Cabai",
+          pembeli: "Warung Pak Budi",
+          jumlahTerjual: 30,
+          hargaPerKg: 45000,
+          tanggalJual: "2025-01-22",
+          statusBayar: "Belum Lunas",
+        },
+        {
+          komoditas: "Tomat",
+          pembeli: "Pasar Tradisional Minggu",
+          jumlahTerjual: 95,
+          hargaPerKg: 12000,
+          tanggalJual: "2025-01-18",
+          statusBayar: "Lunas",
+        },
+        {
+          komoditas: "Kangkung",
+          pembeli: "Restoran Sederhana",
+          jumlahTerjual: 40,
+          hargaPerKg: 6000,
+          tanggalJual: "2025-01-23",
+          statusBayar: "Lunas",
+        },
+        {
+          komoditas: "Timun",
+          pembeli: "Toko Sayur Segar",
+          jumlahTerjual: 15,
+          hargaPerKg: 7500,
+          tanggalJual: "2025-01-26",
+          statusBayar: "Belum Lunas",
+        },
+      ];
+
+      function hitungSisaHari(tanggalPanen) {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const panen = new Date(tanggalPanen);
+        panen.setHours(0, 0, 0, 0);
+        const diff = panen - today;
+        return Math.ceil(diff / (1000 * 60 * 60 * 24));
+      }
+
+      function hitungPersentase(hasilAktual, target) {
+        return Math.round((hasilAktual / target) * 100);
+      }
+
+      function getWarnaKeberhasilan(persentase) {
+        if (persentase >= 80)
+          return {
+            bg: "bg-green-100",
+            text: "text-green-800",
+            border: "border-green-300",
+          };
+        if (persentase >= 50)
+          return {
+            bg: "bg-yellow-100",
+            text: "text-yellow-800",
+            border: "border-yellow-300",
+          };
+        return {
+          bg: "bg-red-100",
+          text: "text-red-800",
+          border: "border-red-300",
+        };
+      }
+
+      function formatTanggal(tanggal) {
+        const date = new Date(tanggal);
+        const options = { year: "numeric", month: "long", day: "numeric" };
+        return date.toLocaleDateString("id-ID", options);
+      }
+
+      function updateCountdown() {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        const panenMendatang = panenData
+          .map((item) => ({
+            ...item,
+            sisaHari: hitungSisaHari(item.perkiraanPanen),
+          }))
+          .filter((item) => item.sisaHari >= 0)
+          .sort((a, b) => a.sisaHari - b.sisaHari);
+
+        if (panenMendatang.length > 0) {
+          const terdekat = panenMendatang[0];
+          document.getElementById("countdown-komoditas").textContent =
+            terdekat.komoditas;
+          document.getElementById("countdown-days").textContent =
+            terdekat.sisaHari;
+        } else {
+          document.getElementById("countdown-komoditas").textContent =
+            "Tidak ada panen mendatang";
+          document.getElementById("countdown-days").textContent = "-";
+        }
+      }
+
+      function renderTable() {
+        const tbody = document.getElementById("table-body");
+        tbody.innerHTML = "";
+
+        panenData.forEach((item) => {
+          const persentase = hitungPersentase(item.hasilAktual, item.target);
+          const warna = getWarnaKeberhasilan(persentase);
+          const sisaHari = hitungSisaHari(item.perkiraanPanen);
+
+          let statusHTML;
+          if (sisaHari < 0) {
+            statusHTML =
+              '<span class="px-2 py-1 rounded-full text-xs font-medium bg-gray-200 text-gray-600 whitespace-nowrap">Sudah Panen</span>';
+          } else if (sisaHari === 0) {
+            statusHTML =
+              '<span class="px-2 py-1 rounded-full text-xs font-medium bg-orange-100 text-orange-800 whitespace-nowrap">Hari Ini!</span>';
+          } else {
+            statusHTML = `<span class="px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 whitespace-nowrap">${sisaHari} hari lagi</span>`;
+          }
+
+          const row = document.createElement("tr");
+          row.className = "hover:bg-green-50 transition-colors duration-200";
+          row.innerHTML = `
+          <td class="px-6 py-4 font-medium text-gray-900">${item.komoditas}</td>
+          <td class="px-6 py-4 text-gray-600">${formatTanggal(
+            item.tanggalTanam
+          )}</td>
+          <td class="px-6 py-4 text-gray-600">${formatTanggal(
+            item.perkiraanPanen
+          )}</td>
+          <td class="px-6 py-4 text-gray-900 font-semibold">${
+            item.hasilAktual
+          } kg / ${item.target} kg</td>
+          <td class="px-6 py-4">
+            <span class="px-3 py-1 rounded-full text-sm font-bold ${warna.bg} ${
+            warna.text
+          } border-2 ${warna.border}">
+              ${persentase}%
+            </span>
+          </td>
+          <td class="px-6 py-4">${statusHTML}</td>
+        `;
+          tbody.appendChild(row);
+        });
+
+        updateSummary();
+      }
+
+      function formatRupiah(angka) {
+        return new Intl.NumberFormat("id-ID", {
+          style: "currency",
+          currency: "IDR",
+          minimumFractionDigits: 0,
+        }).format(angka);
+      }
+
+      function renderSalesTable() {
+        const tbody = document.getElementById("sales-table-body");
+        tbody.innerHTML = "";
+
+        penjualanData.forEach((item) => {
+          const totalPemasukan = item.jumlahTerjual * item.hargaPerKg;
+
+          let statusHTML;
+          if (item.statusBayar === "Lunas") {
+            statusHTML =
+              '<span class="px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 border-2 border-green-300 whitespace-nowrap">✓ Lunas</span>';
+          } else {
+            statusHTML =
+              '<span class="px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800 border-2 border-red-300 whitespace-nowrap">⏳ Belum Lunas</span>';
+          }
+
+          const row = document.createElement("tr");
+          row.className = "hover:bg-blue-50 transition-colors duration-200";
+          row.innerHTML = `
+          <td class="px-6 py-4 font-medium text-gray-900">${item.komoditas}</td>
+          <td class="px-6 py-4 text-gray-600">${item.pembeli}</td>
+          <td class="px-6 py-4 text-gray-900 font-semibold">${
+            item.jumlahTerjual
+          } kg</td>
+          <td class="px-6 py-4 text-gray-900">${formatRupiah(
+            item.hargaPerKg
+          )}</td>
+          <td class="px-6 py-4 text-blue-700 font-bold">${formatRupiah(
+            totalPemasukan
+          )}</td>
+          <td class="px-6 py-4 text-gray-600">${formatTanggal(
+            item.tanggalJual
+          )}</td>
+          <td class="px-6 py-4">${statusHTML}</td>
+        `;
+          tbody.appendChild(row);
+        });
+      }
+
+      function renderPanenChart() {
+        const chartContainer = document.getElementById("panen-chart");
+        chartContainer.innerHTML = "";
+
+        const maxValue = Math.max(
+          ...panenData.map((item) => Math.max(item.hasilAktual, item.target))
+        );
+
+        panenData.forEach((item) => {
+          const persentase = hitungPersentase(item.hasilAktual, item.target);
+          const actualWidth = (item.hasilAktual / maxValue) * 100;
+          const targetWidth = (item.target / maxValue) * 100;
+
+          const chartItem = document.createElement("div");
+          chartItem.className = "mb-4";
+          chartItem.innerHTML = `
+          <div class="flex justify-between items-center mb-2">
+            <span class="font-medium text-gray-700 text-sm">${item.komoditas}</span>
+            <span class="text-xs text-gray-500">${item.hasilAktual}/${item.target} kg (${persentase}%)</span>
+          </div>
+          <div class="relative">
+            <div class="w-full bg-gray-200 rounded-full h-6 mb-1">
+              <div class="bg-green-500 h-6 rounded-full relative" style="width: ${actualWidth}%">
+                <span class="absolute right-2 top-0 text-xs text-white font-medium leading-6">Aktual</span>
+              </div>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-2">
+              <div class="bg-green-300 h-2 rounded-full" style="width: ${targetWidth}%"></div>
+            </div>
+            <span class="text-xs text-gray-500 mt-1">Target</span>
+          </div>
+        `;
+          chartContainer.appendChild(chartItem);
+        });
+      }
+
+      function renderSalesChart() {
+        const chartContainer = document.getElementById("sales-chart");
+        chartContainer.innerHTML = "";
+
+        // Agregasi penjualan per komoditas
+        const salesByKomoditas = {};
+        penjualanData.forEach((item) => {
+          const total = item.jumlahTerjual * item.hargaPerKg;
+          if (salesByKomoditas[item.komoditas]) {
+            salesByKomoditas[item.komoditas] += total;
+          } else {
+            salesByKomoditas[item.komoditas] = total;
+          }
+        });
+
+        const maxSales = Math.max(...Object.values(salesByKomoditas));
+        const colors = [
+          "bg-blue-500",
+          "bg-green-500",
+          "bg-yellow-500",
+          "bg-purple-500",
+          "bg-red-500",
+        ];
+
+        Object.entries(salesByKomoditas).forEach(
+          ([komoditas, total], index) => {
+            const width = (total / maxSales) * 100;
+            const colorClass = colors[index % colors.length];
+
+            const chartItem = document.createElement("div");
+            chartItem.className = "mb-4";
+            chartItem.innerHTML = `
+          <div class="flex justify-between items-center mb-2">
+            <span class="font-medium text-gray-700 text-sm">${komoditas}</span>
+            <span class="text-xs text-gray-500">${formatRupiah(total)}</span>
+          </div>
+          <div class="w-full bg-gray-200 rounded-full h-6">
+            <div class="${colorClass} h-6 rounded-full flex items-center justify-end pr-2" style="width: ${width}%">
+              <span class="text-xs text-white font-medium">${Math.round(
+                width
+              )}%</span>
+            </div>
+          </div>
+        `;
+            chartContainer.appendChild(chartItem);
+          }
+        );
+      }
+
+      function updateSummary() {
+        document.getElementById("total-komoditas").textContent =
+          panenData.length;
+
+        const totalPersentase = panenData.reduce((sum, item) => {
+          return sum + hitungPersentase(item.hasilAktual, item.target);
+        }, 0);
+        const avgPersentase = Math.round(totalPersentase / panenData.length);
+        document.getElementById("avg-success").textContent =
+          avgPersentase + "%";
+
+        const totalPenjualan = penjualanData.reduce((sum, item) => {
+          return sum + item.jumlahTerjual * item.hargaPerKg;
+        }, 0);
+        document.getElementById("total-penjualan").textContent =
+          formatRupiah(totalPenjualan);
+
+        const piutangBelumLunas = penjualanData
+          .filter((item) => item.statusBayar === "Belum Lunas")
+          .reduce((sum, item) => {
+            return sum + item.jumlahTerjual * item.hargaPerKg;
+          }, 0);
+        document.getElementById("piutang-belum-lunas").textContent =
+          formatRupiah(piutangBelumLunas);
+      }
+
+      async function onConfigChange(config) {
+        document.getElementById("dashboard-title").textContent =
+          config.dashboard_title || defaultConfig.dashboard_title;
+        document.getElementById("countdown-label").textContent =
+          config.countdown_label || defaultConfig.countdown_label;
+
+        const primaryColor =
+          config.primary_color || defaultConfig.primary_color;
+        const surfaceColor =
+          config.surface_color || defaultConfig.surface_color;
+        const textColor = config.text_color || defaultConfig.text_color;
+        const accentColor = config.accent_color || defaultConfig.accent_color;
+        const backgroundColor =
+          config.background_color || defaultConfig.background_color;
+
+        document.body.style.background = `linear-gradient(to bottom right, ${backgroundColor}, ${accentColor}20)`;
+        document.getElementById("dashboard-title").style.color = primaryColor;
+      }
+
+      if (window.elementSdk) {
+        window.elementSdk.init({
+          defaultConfig,
+          onConfigChange,
+          mapToCapabilities: (config) => ({
+            recolorables: [
+              {
+                get: () =>
+                  config.background_color || defaultConfig.background_color,
+                set: (value) => {
+                  config.background_color = value;
+                  window.elementSdk.setConfig({ background_color: value });
+                },
+              },
+              {
+                get: () => config.surface_color || defaultConfig.surface_color,
+                set: (value) => {
+                  config.surface_color = value;
+                  window.elementSdk.setConfig({ surface_color: value });
+                },
+              },
+              {
+                get: () => config.text_color || defaultConfig.text_color,
+                set: (value) => {
+                  config.text_color = value;
+                  window.elementSdk.setConfig({ text_color: value });
+                },
+              },
+              {
+                get: () => config.primary_color || defaultConfig.primary_color,
+                set: (value) => {
+                  config.primary_color = value;
+                  window.elementSdk.setConfig({ primary_color: value });
+                },
+              },
+              {
+                get: () => config.accent_color || defaultConfig.accent_color,
+                set: (value) => {
+                  config.accent_color = value;
+                  window.elementSdk.setConfig({ accent_color: value });
+                },
+              },
+            ],
+            borderables: [],
+            fontEditable: undefined,
+            fontSizeable: undefined,
+          }),
+          mapToEditPanelValues: (config) =>
+            new Map([
+              [
+                "dashboard_title",
+                config.dashboard_title || defaultConfig.dashboard_title,
+              ],
+              [
+                "countdown_label",
+                config.countdown_label || defaultConfig.countdown_label,
+              ],
+            ]),
+        });
+      }
+
+      renderTable();
+      renderSalesTable();
+      renderPanenChart();
+      renderSalesChart();
+      updateCountdown();
+
+      setInterval(() => {
+        updateCountdown();
+        renderTable();
+        renderSalesTable();
+        renderPanenChart();
+        renderSalesChart();
+      }, 60000);
+    </script>
+    <script>
+      (function () {
+        function c() {
+          var b = a.contentDocument || a.contentWindow.document;
+          if (b) {
+            var d = b.createElement("script");
+            d.innerHTML =
+              "window.__CF$cv$params={r:'999974f5c41e3440',t:'MTc2MjMxNTM1OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
+            b.getElementsByTagName("head")[0].appendChild(d);
+          }
+        }
+        if (document.body) {
+          var a = document.createElement("iframe");
+          a.height = 1;
+          a.width = 1;
+          a.style.position = "absolute";
+          a.style.top = 0;
+          a.style.left = 0;
+          a.style.border = "none";
+          a.style.visibility = "hidden";
+          document.body.appendChild(a);
+          if ("loading" !== document.readyState) c();
+          else if (window.addEventListener)
+            document.addEventListener("DOMContentLoaded", c);
+          else {
+            var e = document.onreadystatechange || function () {};
+            document.onreadystatechange = function (b) {
+              e(b);
+              "loading" !== document.readyState &&
+                ((document.onreadystatechange = e), c());
+            };
+          }
+        }
+      })();
+    </script>
+  </body>
+</html>
