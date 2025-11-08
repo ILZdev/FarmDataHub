@@ -126,7 +126,7 @@
       </div>
     </div>
     <script>
-      const defaultConfig = {
+      const NewsDefaultConfig = {
         background_color: "#f0f9ff",
         header_color: "#0ea5e9",
         card_color: "#ffffff",
@@ -140,7 +140,7 @@
         all_category_label: "Semua",
       };
 
-      let config = { ...defaultConfig };
+      let config = { ...NewsDefaultConfig };
 
       // Data berita pertanian
       const newsData = [
@@ -429,7 +429,7 @@
         ];
         const container = document.getElementById("category-filters");
         const allLabel =
-          config.all_category_label || defaultConfig.all_category_label;
+          config.all_category_label || NewsDefaultConfig.all_category_label;
 
         container.innerHTML = categories
           .map((cat) => {
@@ -739,19 +739,20 @@
         filterSection.style.backgroundColor = config.background_color;
 
         const siteTitle = document.getElementById("site-title");
-        siteTitle.textContent = config.site_title || defaultConfig.site_title;
+        siteTitle.textContent =
+          config.site_title || NewsDefaultConfig.site_title;
         siteTitle.style.fontFamily = `${config.font_family}, system-ui, sans-serif`;
         siteTitle.style.fontSize = `${config.font_size * 2.5}px`;
 
         const siteTagline = document.getElementById("site-tagline");
         siteTagline.textContent =
-          config.site_tagline || defaultConfig.site_tagline;
+          config.site_tagline || NewsDefaultConfig.site_tagline;
         siteTagline.style.fontFamily = `${config.font_family}, system-ui, sans-serif`;
         siteTagline.style.fontSize = `${config.font_size * 1.125}px`;
 
         const searchInput = document.getElementById("search-input");
         searchInput.placeholder =
-          config.search_placeholder || defaultConfig.search_placeholder;
+          config.search_placeholder || NewsDefaultConfig.search_placeholder;
         searchInput.style.borderColor = config.button_color;
         searchInput.style.color = config.text_color;
         searchInput.style.fontFamily = `${config.font_family}, system-ui, sans-serif`;
@@ -763,41 +764,43 @@
 
       if (window.elementSdk) {
         window.elementSdk.init({
-          defaultConfig,
+          NewsDefaultConfig,
           onConfigChange,
           mapToCapabilities: (config) => ({
             recolorables: [
               {
                 get: () =>
-                  config.background_color || defaultConfig.background_color,
+                  config.background_color || NewsDefaultConfig.background_color,
                 set: (value) => {
                   config.background_color = value;
                   window.elementSdk.setConfig({ background_color: value });
                 },
               },
               {
-                get: () => config.header_color || defaultConfig.header_color,
+                get: () =>
+                  config.header_color || NewsDefaultConfig.header_color,
                 set: (value) => {
                   config.header_color = value;
                   window.elementSdk.setConfig({ header_color: value });
                 },
               },
               {
-                get: () => config.card_color || defaultConfig.card_color,
+                get: () => config.card_color || NewsDefaultConfig.card_color,
                 set: (value) => {
                   config.card_color = value;
                   window.elementSdk.setConfig({ card_color: value });
                 },
               },
               {
-                get: () => config.text_color || defaultConfig.text_color,
+                get: () => config.text_color || NewsDefaultConfig.text_color,
                 set: (value) => {
                   config.text_color = value;
                   window.elementSdk.setConfig({ text_color: value });
                 },
               },
               {
-                get: () => config.button_color || defaultConfig.button_color,
+                get: () =>
+                  config.button_color || NewsDefaultConfig.button_color,
                 set: (value) => {
                   config.button_color = value;
                   window.elementSdk.setConfig({ button_color: value });
@@ -806,14 +809,14 @@
             ],
             borderables: [],
             fontEditable: {
-              get: () => config.font_family || defaultConfig.font_family,
+              get: () => config.font_family || NewsDefaultConfig.font_family,
               set: (value) => {
                 config.font_family = value;
                 window.elementSdk.setConfig({ font_family: value });
               },
             },
             fontSizeable: {
-              get: () => config.font_size || defaultConfig.font_size,
+              get: () => config.font_size || NewsDefaultConfig.font_size,
               set: (value) => {
                 config.font_size = value;
                 window.elementSdk.setConfig({ font_size: value });
@@ -822,18 +825,20 @@
           }),
           mapToEditPanelValues: (config) =>
             new Map([
-              ["site_title", config.site_title || defaultConfig.site_title],
+              ["site_title", config.site_title || NewsDefaultConfig.site_title],
               [
                 "site_tagline",
-                config.site_tagline || defaultConfig.site_tagline,
+                config.site_tagline || NewsDefaultConfig.site_tagline,
               ],
               [
                 "search_placeholder",
-                config.search_placeholder || defaultConfig.search_placeholder,
+                config.search_placeholder ||
+                  NewsDefaultConfig.search_placeholder,
               ],
               [
                 "all_category_label",
-                config.all_category_label || defaultConfig.all_category_label,
+                config.all_category_label ||
+                  NewsDefaultConfig.all_category_label,
               ],
             ]),
         });

@@ -866,6 +866,10 @@
             <span class="nav-icon">📈</span>
             <span class="nav-text">Dokumentasi Pertumbuhan</span>
           </button>
+          <button class="nav-item nav-tab" data-tab="News">
+            <span class="nav-icon">🚜</span>
+            <span class="nav-text">Berita</span>
+          </button>
           <button class="nav-item nav-tab" data-tab="money">
             <span class="nav-icon">💰</span>
             <span class="nav-text">Data Keuangan</span>
@@ -1233,6 +1237,63 @@
             </div>
           </div>
         </div>
+
+        <!-- Dash News-->
+
+        <div id="News-tab" class="tab-content hidden">
+          <div class="mb-6">
+            <div id="app" class="min-h-full">
+              <!-- Header -->
+              <header id="header" class="shadow-md sticky top-0 z-50">
+                <div class="max-w-7xl mx-auto px-4 py-6">
+                  <h1 id="site-title" class="text-4xl font-bold mb-2">
+                    Berita Pertanian
+                  </h1>
+                  <p id="site-tagline" class="text-lg opacity-90">
+                    Informasi Terkini Dunia Pertanian
+                  </p>
+                </div>
+              </header>
+              <!-- Search and Filter Section -->
+              <div id="filter-section" class="max-w-7xl mx-auto px-4 py-6">
+                <div class="mb-6">
+                  <input
+                    type="text"
+                    id="search-input"
+                    class="search-input w-full px-4 py-3 rounded-lg border-2 text-lg"
+                    placeholder="Cari berita..."
+                  />
+                </div>
+                <div class="flex flex-wrap gap-2" id="category-filters">
+                  <!-- Categories will be inserted here -->
+                </div>
+              </div>
+              <!-- News Grid -->
+              <main class="max-w-7xl mx-auto px-4 pb-12">
+                <div
+                  id="news-grid"
+                  class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                >
+                  <!-- News cards will be inserted here -->
+                </div>
+                <div id="no-results" class="text-center py-12 hidden">
+                  <p class="text-xl opacity-60">
+                    Tidak ada berita yang ditemukan
+                  </p>
+                </div>
+              </main>
+              <!-- Modal -->
+              <div id="news-modal" class="modal">
+                <div class="modal-content">
+                  <div id="modal-body">
+                    <!-- Modal content will be inserted here -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- Dash Keuangan -->
         <div id="money-tab" class="tab-content hidden">
           <div class="mb-6">
@@ -1977,7 +2038,65 @@
         </div>
         <!-- Dash Report -->
         <div id="report-tab" class="tab-content hidden">
-          <div class="mb-6">Hello</div>
+          <div class="mb-6">
+            <div class="ReportContainer">
+              <div class="ReportHeader">
+                <h1 id="ReportDashboard-title">Laporan Data Akhir Pertanian</h1>
+                <p id="ReportSubtitle">Dashboard Monitoring &amp; Analisis</p>
+              </div>
+              <div class="ReportFilters">
+                <div class="ReportFilter-group">
+                  <label for="ReportKomoditas-filter">Filter Komoditas</label>
+                  <select id="ReportKomoditas-filter">
+                    <option value="semua">Semua Komoditas</option>
+                  </select>
+                </div>
+              </div>
+              <div class="ReportStats-grid" id="ReportStats-grid"></div>
+              <div class="table-ReportContainer">
+                <div class="table-ReportHeader">
+                  <h2>Tabel Laporan Utama</h2>
+                </div>
+                <div class="ReportTable-wrapper">
+                  <table id="main-table">
+                    <thead>
+                      <tr>
+                        <th>Komoditas</th>
+                        <th>Total Biaya</th>
+                        <th>Total Hasil</th>
+                        <th>Laba/Rugi</th>
+                        <th>Efisiensi (%)</th>
+                        <th>Investor</th>
+                        <th>% Bagi Hasil</th>
+                        <th>Nilai Bagi Hasil</th>
+                      </tr>
+                    </thead>
+                    <tbody id="ReportTable-body"></tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="ReportCharts-grid">
+                <div class="chart-ReportContainer">
+                  <h3>Perbandingan Biaya vs Hasil</h3>
+                  <div class="ReportChart-wrapper">
+                    <canvas id="ReportBar-chart"></canvas>
+                  </div>
+                </div>
+                <div class="chart-ReportContainer">
+                  <h3>Pembagian Laba Investor</h3>
+                  <div class="ReportChart-wrapper">
+                    <canvas id="ReportPie-chart"></canvas>
+                  </div>
+                </div>
+                <div class="chart-ReportContainer" style="grid-column: 1 / -1">
+                  <h3>Tren Laba Bersih per Komoditas</h3>
+                  <div class="ReportChart-wrapper">
+                    <canvas id="ReportLine-chart"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </main>
     </div>
@@ -2254,6 +2373,7 @@
     </script>
 
     <script src="exm3doc.js"></script>
+    <script src="exm3news.js"></script>
     <script src="exm3money.js"></script>
     <script src="exm3inventory.js"></script>
     <script src="exm3datapanen.js"></script>

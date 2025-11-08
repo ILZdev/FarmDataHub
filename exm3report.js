@@ -1,218 +1,426 @@
-// Data laporan pertanian
+// Inject CSS styles
+const styles = `
+      body {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #f5f7fa 0%, #e8f5e9 100%);
+        min-height: 100%;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      .ReportContainer {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 24px;
+      }
+
+      .ReportHeader {
+        text-align: center;
+        margin-bottom: 32px;
+        padding: 24px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      }
+
+      .ReportHeader h1 {
+        margin: 0 0 8px 0;
+        font-size: 32px;
+        font-weight: 700;
+      }
+
+      .ReportHeader p {
+        margin: 0;
+        font-size: 16px;
+        opacity: 0.7;
+      }
+
+      .ReportFilters {
+        display: flex;
+        gap: 16px;
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      }
+
+      .ReportFilter-group {
+        flex: 1;
+        min-width: 200px;
+      }
+
+      .ReportFilter-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        font-size: 14px;
+      }
+
+      .ReportFilter-group select {
+        width: 100%;
+        padding: 10px 12px;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 14px;
+        background: white;
+        cursor: pointer;
+        transition: border-color 0.3s;
+      }
+
+      .ReportFilter-group select:focus {
+        outline: none;
+        border-color: #2E7D32;
+      }
+
+      .ReportStats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 20px;
+        margin-bottom: 32px;
+      }
+
+      .stat-card {
+        background: white;
+        padding: 24px;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+
+      .stat-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+      }
+
+      .stat-card h3 {
+        margin: 0 0 12px 0;
+        font-size: 14px;
+        font-weight: 600;
+        opacity: 0.7;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .stat-card .value {
+        font-size: 28px;
+        font-weight: 700;
+        margin: 0;
+      }
+
+      .stat-card.positive .value {
+        color: #2E7D32;
+      }
+
+      .stat-card.negative .value {
+        color: #d32f2f;
+      }
+
+      .stat-card.neutral .value {
+        color: #FFA726;
+      }
+
+      .table-ReportContainer {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        overflow: hidden;
+        margin-bottom: 32px;
+      }
+
+      .table-ReportHeader {
+        padding: 20px 24px;
+        border-bottom: 2px solid #e0e0e0;
+      }
+
+      .table-ReportHeader h2 {
+        margin: 0;
+        font-size: 20px;
+        font-weight: 700;
+      }
+
+      .ReportTable-wrapper {
+        overflow-x: auto;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      thead {
+        background: #f5f5f5;
+      }
+
+      th {
+        padding: 16px;
+        text-align: left;
+        font-weight: 600;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        border-bottom: 2px solid #e0e0e0;
+      }
+
+      td {
+        padding: 16px;
+        border-bottom: 1px solid #f0f0f0;
+        font-size: 14px;
+      }
+
+      tbody tr:hover {
+        background: #f9f9f9;
+      }
+
+      .positive-value {
+        color: #2E7D32;
+        font-weight: 600;
+      }
+
+      .negative-value {
+        color: #d32f2f;
+        font-weight: 600;
+      }
+
+      .ReportCharts-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        gap: 24px;
+        margin-bottom: 32px;
+      }
+
+      .chart-ReportContainer {
+        background: white;
+        padding: 24px;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      }
+
+      .chart-ReportContainer h3 {
+        margin: 0 0 20px 0;
+        font-size: 18px;
+        font-weight: 700;
+      }
+
+      .ReportChart-wrapper {
+        position: relative;
+        height: 300px;
+      }
+
+      .investor-details {
+        font-size: 12px;
+        color: #666;
+      }
+
+      .investor-badge {
+        display: inline-block;
+        padding: 4px 8px;
+        background: #e8f5e9;
+        border-radius: 4px;
+        margin-right: 4px;
+        margin-bottom: 4px;
+        font-size: 11px;
+        font-weight: 600;
+      }
+
+      @media (max-width: 768px) {
+        .ReportContainer {
+          padding: 16px;
+        }
+
+        .ReportHeader h1 {
+          font-size: 24px;
+        }
+
+        .ReportStats-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .ReportCharts-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .ReportFilters {
+          flex-direction: column;
+        }
+
+        th, td {
+          padding: 12px 8px;
+          font-size: 12px;
+        }
+      }
+    `;
+
+const styleSheet = document.createElement("style");
+styleSheet.textContent = styles;
+document.head.appendChild(styleSheet);
+
 const laporanData = [
   {
     komoditas: "Padi",
     totalBiaya: 4500000,
     totalHasil: 7500000,
     labaRugi: 3000000,
-    persenInvestor: 40,
-    bagianInvestor: 1200000,
     efisiensi: 88,
-    periode: "q1",
+    investor: [
+      { nama: "Investor A", persen: 40 },
+      { nama: "Investor B", persen: 30 },
+      { nama: "Petani", persen: 30 },
+    ],
   },
   {
     komoditas: "Cabai",
     totalBiaya: 2500000,
     totalHasil: 2000000,
     labaRugi: -500000,
-    persenInvestor: 40,
-    bagianInvestor: 0,
     efisiensi: 60,
-    periode: "q2",
+    investor: [
+      { nama: "Investor A", persen: 50 },
+      { nama: "Petani", persen: 50 },
+    ],
   },
   {
     komoditas: "Jagung",
     totalBiaya: 3000000,
     totalHasil: 5000000,
     labaRugi: 2000000,
-    persenInvestor: 35,
-    bagianInvestor: 700000,
     efisiensi: 80,
-    periode: "q1",
-  },
-  {
-    komoditas: "Tomat",
-    totalBiaya: 1800000,
-    totalHasil: 3200000,
-    labaRugi: 1400000,
-    persenInvestor: 30,
-    bagianInvestor: 420000,
-    efisiensi: 85,
-    periode: "q3",
-  },
-  {
-    komoditas: "Kedelai",
-    totalBiaya: 2200000,
-    totalHasil: 3500000,
-    labaRugi: 1300000,
-    persenInvestor: 35,
-    bagianInvestor: 455000,
-    efisiensi: 75,
-    periode: "q2",
+    investor: [
+      { nama: "Investor B", persen: 60 },
+      { nama: "Petani", persen: 40 },
+    ],
   },
 ];
-
-// Data investor
-const investorData = [
-  {
-    nama: "Budi Santoso",
-    komoditas: "Padi",
-    persentase: 40,
-    jumlah: 1200000,
-    periode: "q1",
-  },
-  {
-    nama: "Siti Aminah",
-    komoditas: "Cabai",
-    persentase: 40,
-    jumlah: 0,
-    periode: "q2",
-  },
-  {
-    nama: "Ahmad Hidayat",
-    komoditas: "Jagung",
-    persentase: 35,
-    jumlah: 700000,
-    periode: "q1",
-  },
-  {
-    nama: "Dewi Lestari",
-    komoditas: "Tomat",
-    persentase: 30,
-    jumlah: 420000,
-    periode: "q3",
-  },
-  {
-    nama: "Rudi Hartono",
-    komoditas: "Kedelai",
-    persentase: 35,
-    jumlah: 455000,
-    periode: "q2",
-  },
-];
-
-let filteredData = [...laporanData];
-let barChart = null;
-let pieChart = null;
-let investorChart = null;
 
 const ReportDefaultConfig = {
   dashboard_title: "Laporan Data Akhir Pertanian",
-  subtitle: "Analisis Keuangan & Produksi Periode 2024",
-  income_label: "Total Pemasukan",
-  expense_label: "Total Pengeluaran",
-  profit_label: "Total Laba/Rugi",
-  harvest_label: "Panen Berhasil",
-  commodity_label: "Komoditas Aktif",
-  background_color: "#8b2e2e",
-  card_color: "#ffffff",
-  text_color: "#1a202c",
-  primary_color: "#4caf50",
-  secondary_color: "#ff9800",
+  ReportSubtitle: "Dashboard Monitoring & Analisis",
+  primary_color: "#2E7D32",
+  secondary_color: "#FFA726",
+  background_color: "#f5f7fa",
+  text_color: "#333333",
+  font_family: "Segoe UI",
 };
 
-function formatCurrency(amount) {
+let config = { ...ReportDefaultConfig };
+let barChart, pieChart, lineChart;
+let currentKomoditasFilter = "semua";
+
+function formatCurrency(value) {
   return new Intl.NumberFormat("id-ID", {
     style: "currency",
     currency: "IDR",
     minimumFractionDigits: 0,
-  }).format(amount);
+  }).format(value);
 }
 
-function calculateStats(data) {
-  const totalIncome = data.reduce((sum, item) => sum + item.totalHasil, 0);
-  const totalExpense = data.reduce((sum, item) => sum + item.totalBiaya, 0);
-  const totalProfit = totalIncome - totalExpense;
-  const totalInvestor = data.reduce(
-    (sum, item) => sum + item.bagianInvestor,
-    0
-  );
-  const avgEfficiency =
+function getFilteredData() {
+  let filtered = [...laporanData];
+
+  if (currentKomoditasFilter !== "semua") {
+    filtered = filtered.filter(
+      (item) => item.komoditas === currentKomoditasFilter
+    );
+  }
+
+  return filtered;
+}
+
+function calculateStats() {
+  const data = getFilteredData();
+  const totalPemasukan = data.reduce((sum, item) => sum + item.totalHasil, 0);
+  const totalPengeluaran = data.reduce((sum, item) => sum + item.totalBiaya, 0);
+  const totalLabaRugi = data.reduce((sum, item) => sum + item.labaRugi, 0);
+  const avgEfisiensi =
     data.reduce((sum, item) => sum + item.efisiensi, 0) / data.length;
-  const totalCommodity = data.length;
 
-  document.getElementById("total-income").textContent =
-    formatCurrency(totalIncome);
-  document.getElementById("total-expense").textContent =
-    formatCurrency(totalExpense);
-  document.getElementById("total-profit").textContent =
-    formatCurrency(totalProfit);
-  document.getElementById("total-investor").textContent =
-    formatCurrency(totalInvestor);
-  document.getElementById("harvest-success").textContent =
-    avgEfficiency.toFixed(1) + "%";
-  document.getElementById("total-commodity").textContent = totalCommodity;
+  const allInvestors = new Set();
+  data.forEach((item) => {
+    item.investor.forEach((inv) => allInvestors.add(inv.nama));
+  });
 
-  const profitElement = document.getElementById("total-profit");
-  profitElement.style.color = totalProfit >= 0 ? "#4caf50" : "#f44336";
+  return {
+    totalPemasukan,
+    totalPengeluaran,
+    totalLabaRugi,
+    avgEfisiensi: avgEfisiensi.toFixed(1),
+    jumlahInvestor: allInvestors.size,
+  };
 }
 
-function renderTable(data) {
-  const tbody = document.getElementById("table-body");
+function renderStats() {
+  const stats = calculateStats();
+  const statsGrid = document.getElementById("ReportStats-grid");
 
-  if (data.length === 0) {
-    tbody.innerHTML =
-      '<tr><td colspan="5" class="no-data">Tidak ada data yang sesuai dengan filter</td></tr>';
-    return;
-  }
+  statsGrid.innerHTML = `
+        <div class="stat-card positive">
+          <h3>Total Pemasukan</h3>
+          <p class="value">${formatCurrency(stats.totalPemasukan)}</p>
+        </div>
+        <div class="stat-card negative">
+          <h3>Total Pengeluaran</h3>
+          <p class="value">${formatCurrency(stats.totalPengeluaran)}</p>
+        </div>
+        <div class="stat-card ${
+          stats.totalLabaRugi >= 0 ? "positive" : "negative"
+        }">
+          <h3>Total Laba/Rugi</h3>
+          <p class="value">${formatCurrency(stats.totalLabaRugi)}</p>
+        </div>
+        <div class="stat-card neutral">
+          <h3>Efisiensi Panen</h3>
+          <p class="value">${stats.avgEfisiensi}%</p>
+        </div>
+        <div class="stat-card neutral">
+          <h3>Jumlah Investor</h3>
+          <p class="value">${stats.jumlahInvestor}</p>
+        </div>
+      `;
+}
 
-  tbody.innerHTML = data
-    .map((item) => {
-      const profitClass =
-        item.labaRugi >= 0 ? "profit-positive" : "profit-negative";
-      let efficiencyClass = "efficiency-low";
-      if (item.efisiensi >= 80) efficiencyClass = "efficiency-high";
-      else if (item.efisiensi >= 65) efficiencyClass = "efficiency-medium";
+function renderTable() {
+  const data = getFilteredData();
+  const tbody = document.getElementById("ReportTable-body");
+  tbody.innerHTML = "";
 
-      return `
-          <tr>
-            <td><strong>${item.komoditas}</strong></td>
-            <td>${formatCurrency(item.totalBiaya)}</td>
-            <td>${formatCurrency(item.totalHasil)}</td>
-            <td class="${profitClass}">${formatCurrency(item.labaRugi)}</td>
-            <td style="text-align: center;">
-              <span class="efficiency-badge ${efficiencyClass}">${
-        item.efisiensi
-      }%</span>
+  data.forEach((item) => {
+    item.investor.forEach((inv, index) => {
+      const nilaiBagiHasil = (inv.persen / 100) * item.labaRugi;
+      const row = document.createElement("tr");
+
+      row.innerHTML = `
+            <td>${index === 0 ? item.komoditas : ""}</td>
+            <td>${index === 0 ? formatCurrency(item.totalBiaya) : ""}</td>
+            <td>${index === 0 ? formatCurrency(item.totalHasil) : ""}</td>
+            <td class="${
+              item.labaRugi >= 0 ? "positive-value" : "negative-value"
+            }">
+              ${index === 0 ? formatCurrency(item.labaRugi) : ""}
             </td>
-          </tr>
-        `;
-    })
-    .join("");
-}
-
-function renderInvestorTable(data) {
-  const tbody = document.getElementById("investor-table-body");
-
-  if (data.length === 0) {
-    tbody.innerHTML =
-      '<tr><td colspan="5" class="no-data">Tidak ada data investor yang sesuai dengan filter</td></tr>';
-    return;
-  }
-
-  tbody.innerHTML = data
-    .map((item) => {
-      const status = item.jumlah > 0 ? "Dibayar" : "Belum Dibayar";
-      const statusClass =
-        item.jumlah > 0 ? "efficiency-high" : "efficiency-low";
-
-      return `
-          <tr>
-            <td><strong>${item.nama}</strong></td>
-            <td>${item.komoditas}</td>
-            <td>${item.persentase}%</td>
-            <td class="profit-positive">${formatCurrency(item.jumlah)}</td>
-            <td style="text-align: center;">
-              <span class="efficiency-badge ${statusClass}">${status}</span>
+            <td>${index === 0 ? item.efisiensi + "%" : ""}</td>
+            <td><span class="investor-badge">${inv.nama}</span></td>
+            <td>${inv.persen}%</td>
+            <td class="${
+              nilaiBagiHasil >= 0 ? "positive-value" : "negative-value"
+            }">
+              ${formatCurrency(nilaiBagiHasil)}
             </td>
-          </tr>
-        `;
-    })
-    .join("");
+          `;
+
+      tbody.appendChild(row);
+    });
+  });
 }
 
-function renderBarChart(data) {
-  const ctx = document.getElementById("barChart");
+function renderBarChart() {
+  const data = getFilteredData();
+  const ctx = document.getElementById("ReportBar-chart").getContext("2d");
 
   if (barChart) {
     barChart.destroy();
@@ -226,16 +434,16 @@ function renderBarChart(data) {
         {
           label: "Total Biaya",
           data: data.map((item) => item.totalBiaya),
-          backgroundColor: "rgba(255, 152, 0, 0.7)",
-          borderColor: "rgba(255, 152, 0, 1)",
-          borderWidth: 2,
+          backgroundColor:
+            config.secondary_color || ReportDefaultConfig.secondary_color,
+          borderRadius: 8,
         },
         {
           label: "Total Hasil",
           data: data.map((item) => item.totalHasil),
-          backgroundColor: "rgba(76, 175, 80, 0.7)",
-          borderColor: "rgba(76, 175, 80, 1)",
-          borderWidth: 2,
+          backgroundColor:
+            config.primary_color || ReportDefaultConfig.primary_color,
+          borderRadius: 8,
         },
       ],
     },
@@ -244,7 +452,7 @@ function renderBarChart(data) {
       maintainAspectRatio: false,
       plugins: {
         legend: {
-          position: "top",
+          position: "bottom",
         },
       },
       scales: {
@@ -261,88 +469,42 @@ function renderBarChart(data) {
   });
 }
 
-function renderPieChart(data) {
-  const ctx = document.getElementById("pieChart");
+function renderPieChart() {
+  const data = getFilteredData();
+  const ctx = document.getElementById("ReportPie-chart").getContext("2d");
 
   if (pieChart) {
     pieChart.destroy();
   }
 
+  const investorTotals = {};
+  data.forEach((item) => {
+    if (item.labaRugi > 0) {
+      item.investor.forEach((inv) => {
+        const nilai = (inv.persen / 100) * item.labaRugi;
+        investorTotals[inv.nama] = (investorTotals[inv.nama] || 0) + nilai;
+      });
+    }
+  });
+
+  const colors = [
+    config.primary_color || ReportDefaultConfig.primary_color,
+    config.secondary_color || ReportDefaultConfig.secondary_color,
+    "#66BB6A",
+    "#FFB74D",
+    "#4FC3F7",
+  ];
+
   pieChart = new Chart(ctx, {
     type: "pie",
     data: {
-      labels: data.map((item) => item.komoditas),
+      labels: Object.keys(investorTotals),
       datasets: [
         {
-          data: data.map((item) => item.totalBiaya),
-          backgroundColor: [
-            "rgba(76, 175, 80, 0.8)",
-            "rgba(255, 152, 0, 0.8)",
-            "rgba(33, 150, 243, 0.8)",
-            "rgba(156, 39, 176, 0.8)",
-            "rgba(255, 193, 7, 0.8)",
-          ],
-          borderColor: [
-            "rgba(76, 175, 80, 1)",
-            "rgba(255, 152, 0, 1)",
-            "rgba(33, 150, 243, 1)",
-            "rgba(156, 39, 176, 1)",
-            "rgba(255, 193, 7, 1)",
-          ],
+          data: Object.values(investorTotals),
+          backgroundColor: colors,
           borderWidth: 2,
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          position: "right",
-        },
-        tooltip: {
-          callbacks: {
-            label: function (context) {
-              const label = context.label || "";
-              const value = formatCurrency(context.parsed);
-              return label + ": " + value;
-            },
-          },
-        },
-      },
-    },
-  });
-}
-
-function renderInvestorChart(data) {
-  const ctx = document.getElementById("investorChart");
-
-  if (investorChart) {
-    investorChart.destroy();
-  }
-
-  investorChart = new Chart(ctx, {
-    type: "doughnut",
-    data: {
-      labels: data.map((item) => item.nama),
-      datasets: [
-        {
-          data: data.map((item) => item.jumlah),
-          backgroundColor: [
-            "rgba(76, 175, 80, 0.8)",
-            "rgba(255, 152, 0, 0.8)",
-            "rgba(33, 150, 243, 0.8)",
-            "rgba(156, 39, 176, 0.8)",
-            "rgba(255, 193, 7, 0.8)",
-          ],
-          borderColor: [
-            "rgba(76, 175, 80, 1)",
-            "rgba(255, 152, 0, 1)",
-            "rgba(33, 150, 243, 1)",
-            "rgba(156, 39, 176, 1)",
-            "rgba(255, 193, 7, 1)",
-          ],
-          borderWidth: 2,
+          borderColor: "#fff",
         },
       ],
     },
@@ -352,19 +514,11 @@ function renderInvestorChart(data) {
       plugins: {
         legend: {
           position: "bottom",
-          labels: {
-            padding: 12,
-            font: {
-              size: 11,
-            },
-          },
         },
         tooltip: {
           callbacks: {
             label: function (context) {
-              const label = context.label || "";
-              const value = formatCurrency(context.parsed);
-              return label + ": " + value;
+              return context.label + ": " + formatCurrency(context.parsed);
             },
           },
         },
@@ -373,84 +527,126 @@ function renderInvestorChart(data) {
   });
 }
 
-function populateCommodityFilter() {
-  const select = document.getElementById("commodity-filter");
-  const commodities = [...new Set(laporanData.map((item) => item.komoditas))];
+function renderLineChart() {
+  const data = getFilteredData();
+  const ctx = document.getElementById("ReportLine-chart").getContext("2d");
 
-  commodities.forEach((commodity) => {
+  if (lineChart) {
+    lineChart.destroy();
+  }
+
+  const colors = [
+    config.primary_color || ReportDefaultConfig.primary_color,
+    config.secondary_color || ReportDefaultConfig.secondary_color,
+    "#66BB6A",
+  ];
+
+  const datasets = data.map((item, index) => ({
+    label: item.komoditas,
+    data: [0, item.labaRugi * 0.3, item.labaRugi * 0.6, item.labaRugi],
+    borderColor: colors[index % colors.length],
+    backgroundColor: colors[index % colors.length] + "20",
+    tension: 0.4,
+    fill: true,
+    pointRadius: 5,
+    pointHoverRadius: 7,
+  }));
+
+  lineChart = new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: ["Awal", "Bulan 1", "Bulan 2", "Akhir"],
+      datasets: datasets,
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: "bottom",
+        },
+      },
+      scales: {
+        y: {
+          ticks: {
+            callback: function (value) {
+              return formatCurrency(value);
+            },
+          },
+        },
+      },
+    },
+  });
+}
+
+function ReportFopulateFilters() {
+  const komoditasFilter = document.getElementById("ReportKomoditas-filter");
+
+  const komoditasSet = new Set(laporanData.map((item) => item.komoditas));
+  komoditasSet.forEach((komoditas) => {
     const option = document.createElement("option");
-    option.value = commodity;
-    option.textContent = commodity;
-    select.appendChild(option);
+    option.value = komoditas;
+    option.textContent = komoditas;
+    komoditasFilter.appendChild(option);
   });
 }
 
-function applyFilters() {
-  const periodFilter = document.getElementById("period-filter").value;
-  const commodityFilter = document.getElementById("commodity-filter").value;
-
-  filteredData = laporanData.filter((item) => {
-    const periodMatch = periodFilter === "all" || item.periode === periodFilter;
-    const commodityMatch =
-      commodityFilter === "all" || item.komoditas === commodityFilter;
-    return periodMatch && commodityMatch;
-  });
-
-  const filteredInvestorData = investorData.filter((item) => {
-    const periodMatch = periodFilter === "all" || item.periode === periodFilter;
-    const commodityMatch =
-      commodityFilter === "all" || item.komoditas === commodityFilter;
-    return periodMatch && commodityMatch;
-  });
-
-  calculateStats(filteredData);
-  renderTable(filteredData);
-  renderInvestorTable(filteredInvestorData);
-  renderInvestorChart(filteredInvestorData);
-  renderBarChart(filteredData);
-  renderPieChart(filteredData);
+function updateDisplay() {
+  renderStats();
+  renderTable();
+  renderBarChart();
+  renderPieChart();
+  renderLineChart();
+  applyColors();
 }
 
-async function onConfigChange(config) {
-  document.getElementById("dashboard-title").textContent =
-    config.dashboard_title || ReportDefaultConfig.dashboard_title;
-  document.getElementById("subtitle").textContent =
-    config.subtitle || ReportDefaultConfig.subtitle;
-  document.getElementById("income-label").textContent =
-    config.income_label || ReportDefaultConfig.income_label;
-  document.getElementById("expense-label").textContent =
-    config.expense_label || ReportDefaultConfig.expense_label;
-  document.getElementById("profit-label").textContent =
-    config.profit_label || ReportDefaultConfig.profit_label;
-  document.getElementById("harvest-label").textContent =
-    config.harvest_label || ReportDefaultConfig.harvest_label;
-  document.getElementById("commodity-label").textContent =
-    config.commodity_label || ReportDefaultConfig.commodity_label;
-
-  const backgroundColor =
-    config.background_color || ReportDefaultConfig.background_color;
+function applyColors() {
+  const primaryColor =
+    config.primary_color || ReportDefaultConfig.primary_color;
   const secondaryColor =
     config.secondary_color || ReportDefaultConfig.secondary_color;
-  document.body.style.background = `linear-gradient(135deg, ${backgroundColor} 0%, #5a1a1a 100%)`;
-
-  const cardColor = config.card_color || ReportDefaultConfig.card_color;
-  document
-    .querySelectorAll(
-      ".header, .stat-card, .controls, .table-container, .chart-container"
-    )
-    .forEach((el) => {
-      el.style.backgroundColor = cardColor;
-    });
-
   const textColor = config.text_color || ReportDefaultConfig.text_color;
-  document
-    .querySelectorAll(".header h1, .table-container h2, .chart-container h2")
-    .forEach((el) => {
-      el.style.color = textColor;
-    });
+  const fontFamily = config.font_family || ReportDefaultConfig.font_family;
 
-  const primaryColor = config.primary_color || ReportDefaultConfig.primary_color;
-  document.querySelector(".header").style.borderLeftColor = primaryColor;
+  document.body.style.fontFamily = `${fontFamily}, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif`;
+  document.body.style.color = textColor;
+
+  document.getElementById("ReportDashboard-title").style.color = primaryColor;
+
+  const statCards = document.querySelectorAll(".stat-card.positive .value");
+  statCards.forEach((card) => {
+    card.style.color = primaryColor;
+  });
+
+  const neutralCards = document.querySelectorAll(".stat-card.neutral .value");
+  neutralCards.forEach((card) => {
+    card.style.color = secondaryColor;
+  });
+
+  const selectElements = document.querySelectorAll("select");
+  selectElements.forEach((select) => {
+    select.addEventListener("focus", function () {
+      this.style.borderColor = primaryColor;
+    });
+  });
+}
+
+document
+  .getElementById("ReportKomoditas-filter")
+  .addEventListener("change", (e) => {
+    currentKomoditasFilter = e.target.value;
+    updateDisplay();
+  });
+
+async function onConfigChange(newConfig) {
+  config = { ...config, ...newConfig };
+
+  document.getElementById("ReportDashboard-title").textContent =
+    config.dashboard_title || ReportDefaultConfig.dashboard_title;
+  document.getElementById("ReportSubtitle").textContent =
+    config.ReportSubtitle || ReportDefaultConfig.ReportSubtitle;
+
+  updateDisplay();
 }
 
 if (window.elementSdk) {
@@ -460,17 +656,18 @@ if (window.elementSdk) {
     mapToCapabilities: (config) => ({
       recolorables: [
         {
-          get: () => config.background_color || ReportDefaultConfig.background_color,
+          get: () => config.primary_color || ReportDefaultConfig.primary_color,
           set: (value) => {
-            config.background_color = value;
-            window.elementSdk.setConfig({ background_color: value });
+            config.primary_color = value;
+            window.elementSdk.setConfig({ primary_color: value });
           },
         },
         {
-          get: () => config.card_color || ReportDefaultConfig.card_color,
+          get: () =>
+            config.secondary_color || ReportDefaultConfig.secondary_color,
           set: (value) => {
-            config.card_color = value;
-            window.elementSdk.setConfig({ card_color: value });
+            config.secondary_color = value;
+            window.elementSdk.setConfig({ secondary_color: value });
           },
         },
         {
@@ -480,23 +677,15 @@ if (window.elementSdk) {
             window.elementSdk.setConfig({ text_color: value });
           },
         },
-        {
-          get: () => config.primary_color || ReportDefaultConfig.primary_color,
-          set: (value) => {
-            config.primary_color = value;
-            window.elementSdk.setConfig({ primary_color: value });
-          },
-        },
-        {
-          get: () => config.secondary_color || ReportDefaultConfig.secondary_color,
-          set: (value) => {
-            config.secondary_color = value;
-            window.elementSdk.setConfig({ secondary_color: value });
-          },
-        },
       ],
       borderables: [],
-      fontEditable: undefined,
+      fontEditable: {
+        get: () => config.font_family || ReportDefaultConfig.font_family,
+        set: (value) => {
+          config.font_family = value;
+          window.elementSdk.setConfig({ font_family: value });
+        },
+      },
       fontSizeable: undefined,
     }),
     mapToEditPanelValues: (config) =>
@@ -505,30 +694,13 @@ if (window.elementSdk) {
           "dashboard_title",
           config.dashboard_title || ReportDefaultConfig.dashboard_title,
         ],
-        ["subtitle", config.subtitle || ReportDefaultConfig.subtitle],
-        ["income_label", config.income_label || ReportDefaultConfig.income_label],
-        ["expense_label", config.expense_label || ReportDefaultConfig.expense_label],
-        ["profit_label", config.profit_label || ReportDefaultConfig.profit_label],
-        ["harvest_label", config.harvest_label || ReportDefaultConfig.harvest_label],
         [
-          "commodity_label",
-          config.commodity_label || ReportDefaultConfig.commodity_label,
+          "ReportSubtitle",
+          config.ReportSubtitle || ReportDefaultConfig.ReportSubtitle,
         ],
       ]),
   });
 }
 
-document
-  .getElementById("period-filter")
-  .addEventListener("change", applyFilters);
-document
-  .getElementById("commodity-filter")
-  .addEventListener("change", applyFilters);
-
-populateCommodityFilter();
-calculateStats(filteredData);
-renderTable(filteredData);
-renderInvestorTable(investorData);
-renderInvestorChart(investorData);
-renderBarChart(filteredData);
-renderPieChart(filteredData);
+ReportFopulateFilters();
+updateDisplay();
