@@ -1839,7 +1839,141 @@
         </div>
         <!-- Dash penyakit -->
         <div id="penyakit-tab" class="tab-content hidden">
-          <div class="mb-6"><h1>Hello Penyakit</h1></div>
+          <div class="mb-6">
+            <div
+              class="min-h-full"
+              style="
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+              "
+            >
+              <div class="container mx-auto px-4 py-8">
+                <!-- Header -->
+                <header class="mb-8 text-center">
+                  <h1 id="pageTitle" class="text-4xl font-bold text-white mb-2">
+                    Data Penyakit Tanaman
+                  </h1>
+                  <p id="pageSubtitle" class="text-xl text-white opacity-90">
+                    Pusat Informasi Penyakit Pertanian
+                  </p>
+                </header>
+                <!-- Filter Section -->
+                <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+                  <div
+                    class="flex flex-col sm:flex-row items-start sm:items-center gap-4"
+                  >
+                    <label
+                      id="filterLabel"
+                      for="komoditasFilter"
+                      class="text-lg font-semibold text-gray-700 whitespace-nowrap"
+                      >Filter Komoditas:</label
+                    >
+                    <select
+                      id="komoditasFilter"
+                      class="flex-1 px-4 py-2 border-2 border-purple-300 rounded-lg focus:outline-none focus:border-purple-500 transition-colors"
+                    >
+                      <option value="Semua">Semua Komoditas</option>
+                    </select>
+                    <div class="text-sm text-gray-600">
+                      Total:
+                      <span id="totalCount" class="font-bold text-purple-600"
+                        >0</span
+                      >
+                      penyakit
+                    </div>
+                  </div>
+                </div>
+                <!-- Cards Container -->
+                <div
+                  id="cardsContainer"
+                  class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                >
+                  <!-- Cards will be inserted here -->
+                </div>
+                <!-- Table Container (Hidden by default, can be toggled) -->
+                <div
+                  id="tableContainer"
+                  class="hidden bg-white rounded-lg shadow-lg overflow-hidden"
+                >
+                  <div
+                    class="flex justify-between items-center p-6 border-b border-gray-200"
+                  >
+                    <h3 class="text-lg font-semibold text-gray-800">
+                      Tampilan Tabel
+                    </h3>
+                    <button
+                      id="toggleView"
+                      class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+                    >
+                      📋 Tampilan Kartu
+                    </button>
+                  </div>
+                  <div class="overflow-x-auto">
+                    <table class="w-full">
+                      <thead class="bg-purple-600 text-white">
+                        <tr>
+                          <th class="px-6 py-4 text-left text-sm font-semibold">
+                            Nama Penyakit
+                          </th>
+                          <th class="px-6 py-4 text-left text-sm font-semibold">
+                            Gejala
+                          </th>
+                          <th class="px-6 py-4 text-left text-sm font-semibold">
+                            Penyebab
+                          </th>
+                          <th class="px-6 py-4 text-left text-sm font-semibold">
+                            Solusi
+                          </th>
+                          <th class="px-6 py-4 text-left text-sm font-semibold">
+                            Komoditas
+                          </th>
+                          <th class="px-6 py-4 text-left text-sm font-semibold">
+                            Status
+                          </th>
+                          <th class="px-6 py-4 text-left text-sm font-semibold">
+                            Aksi
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody id="tableBody" class="divide-y divide-gray-200">
+                        <!-- Data will be inserted here -->
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <!-- View Toggle Button -->
+                <div class="text-center mb-6">
+                  <button
+                    id="viewToggle"
+                    class="px-6 py-3 bg-white text-purple-600 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 font-semibold border-2 border-purple-200 hover:border-purple-400"
+                  >
+                    📊 Tampilan Tabel
+                  </button>
+                </div>
+                <!-- Empty State -->
+                <div
+                  id="emptyState"
+                  class="hidden bg-white rounded-lg shadow-lg p-12 text-center"
+                >
+                  <svg
+                    class="mx-auto h-16 w-16 text-gray-400 mb-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewbox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                    ></path>
+                  </svg>
+                  <p class="text-gray-500 text-lg">
+                    Tidak ada data penyakit untuk komoditas yang dipilih
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <!-- Dash Report -->
         <div id="report-tab" class="tab-content hidden">
@@ -2123,5 +2257,6 @@
     <script src="exm3money.js"></script>
     <script src="exm3inventory.js"></script>
     <script src="exm3datapanen.js"></script>
+    <script src="exm3penyakit.js"></script>
   </body>
 </html>
